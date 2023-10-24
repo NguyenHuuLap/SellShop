@@ -29,7 +29,7 @@ function App() {
   return (
     <ThemeProvider theme={theme} >
       <Header/>
-      <Home/>
+      <Profile/>
     </ThemeProvider>
 
     

@@ -8,6 +8,7 @@ import HomeProfile from './HomeProfile';
 import HistoryPurchase from './HistoryPurchase';
 import LookUpWarranty from './LookUpWarranty';
 import Promotion from './Promotion';
+import MyAccount from './MyAccount';
 
 const menuItems = [
   { icon: Home, text: 'Trang chủ', buttonName: 'home' },
@@ -68,7 +69,7 @@ const BlockMenu = () => {
                     </Card>
                 </Grid>
                 <Grid item direction="row">
-                    <Promotion/>
+                    <MyAccount/>
                 </Grid>
             </Grid>
         </center>

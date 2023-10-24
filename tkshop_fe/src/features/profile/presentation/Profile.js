@@ -13,7 +13,7 @@ const Profile = () => {
                     margin: "auto"
                 }}>
                 <Grid item xs={12}>
-                    <HomeProfile/>
+                    <BlockMenu/>
                 </Grid>
             </Grid>
         </>
