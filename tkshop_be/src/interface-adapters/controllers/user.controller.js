@@ -1,4 +1,45 @@
-export const getUsers = (role) => async (req, res, next) => {
-    let users = await userService.getListByRole(role);
-    res.send(users);
+import userService from "../../use-cases/user.service.js";
+import mongoose from "mongoose";
+
+export const getAll = async (req, res, next) => {
+    try {
+        let users = await userService.getAll();
+        res.json(users);
+    } catch (err) { 
+        res.json({
+            message: err.message,
+            error: err
+          });
+        next(err); 
+    }
 }
+
+
+export const add = async (req, res, next) => {
+    try {
+        const newUser = await userService.add(req.body);
+        res.json(newUser);
+    } catch (err) { 
+        res.json({
+            message: err.message,
+            error: err
+          });
+        next(err); 
+    }
+}
+
+export const getByRole = async (req, res, next) => {
+    try {
+        const newUser = await userService.getByRole(req.body.role);
+        res.json(newUser);
+    } catch (err) { 
+        res.json({
+            message: err.message,
+            error: err
+          });
+        next(err); 
+    }
+}
+
+
+// export default { getAll };

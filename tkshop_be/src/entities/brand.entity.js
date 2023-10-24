@@ -5,18 +5,11 @@ import slugGenerator from 'mongoose-slug-updater';
 const brandSchema = mongoose.Schema(
   {
     _id: mongoose.Types.ObjectId,
-
     name: { type: String, trim: true, required: true },
     slug: { type: String, slug: "name", slugPaddingSize: 2, unique: true },
     desc: { type: String, trim: true, required: false },
-
-    headQuarters: { type: String, trim: true, required: false },
-    country: { type: String, trim: true, required: false },
-
     image: { type: String, trim: true, required: false },
-
-    isHide: { type: Boolean, required: true, default: false },
-
+    isDelete: { type: Boolean, required: true, default: false },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
     updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null }
   },

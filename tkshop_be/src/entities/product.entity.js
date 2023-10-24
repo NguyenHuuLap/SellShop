@@ -25,15 +25,12 @@ const productVariantSchema = new Schema({
   variantName: { type: String, trim: true },
   slug: { type: String, slug: "variantName", unique: false },
 
-  price: { type: Number, required: true },              // promotional price (market price - discount)
-  marketPrice: { type: Number, required: true },        // market price
-  quantity: { type: Number, min: 0, required: true },   // quantity of product in stock
-  sold: { type: Number, min: 0, default: 0 },           // quantity sold
-
-  // additional specs
+  price: { type: Number, required: true },
+  marketPrice: { type: Number, required: true }, 
+  quantity: { type: Number, min: 0, required: true }, 
+  sold: { type: Number, min: 0, default: 0 },  
   addOverSpecs: [specificationSchema],
   addDetailSpecs: [specificationDetailSchema],
-
   thumbnail: { type: String, trim: true, required: false },
   pictures: [{ type: String, trim: true }]
 }, { timestamps: true, versionKey: false });
@@ -51,18 +48,14 @@ const productSchema = new Schema({
   detailSpecs: [specificationDetailSchema],
   specPicture: { type: String, trim: true },
 
-  // releaseTime: {
-  //   type: Date,
-  //   default: () => new Date(new Date() - 30 * 24 * 60 * 60 * 1000)      // now - 30 day
-  // },
   warrantyPeriod: { type: Number, min: 0, default: 12 },                      // in months
   origin: { type: String, trim: true, required: false },                      // country of manufacture
 
-  brand: { type: mongoose.Schema.Types.ObjectId, ref: 'Brand', default: null },
-  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
-  categorySub1: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
-  categorySub2: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
-  categorySub3: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
+  brandId: { type: mongoose.Schema.Types.ObjectId, ref: 'Brand', default: null },
+  categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
+  categorySub1Id: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
+  categorySub2Id: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
+  categorySub3Id: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
 
   views: { type: Number, default: 0, min: 0 },                                // views of product
   rates: [                                                                    // rate of product
@@ -77,11 +70,10 @@ const productSchema = new Schema({
   hightLightPics: [{ type: String, trim: true }],
 
   variants: [productVariantSchema],
-  minPrice: { type: Number, min: 1000 },        // min price
-  maxPrice: { type: Number, min: 1000 },        // max price
-  // defaultVariant: { type: String },          // default variant of product
+  minPrice: { type: Number, min: 1000 },
+  maxPrice: { type: Number, min: 1000 },
 
-  isHide: { type: Boolean, default: false },
+  isDelete: { type: Boolean, default: false },
   isOutOfStock: { type: Boolean, default: false },
 
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
@@ -95,7 +87,6 @@ const productSchema = new Schema({
   productSchema
 ].forEach((s) => {
   s.plugin(slugGenerator);
-//   s.plugin(removeMultiSpace);
 });
 
 productSchema.index(
@@ -129,9 +120,9 @@ productSchema.pre('validate', function (next) {
     return next();
   }
 
-//   if (!configs.isDev) {
-//     this.desc = sanitizeHtml(this.desc);
-//   }
+  if (!configs.isDev) {
+    this.desc = sanitizeHtml(this.desc);
+  }
 
   next();
 });

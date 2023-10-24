@@ -8,9 +8,6 @@ import mongooseLeanVirtuals from 'mongoose-lean-virtuals';
 const orderSchema = mongoose.Schema(
   {
     _id: mongoose.Types.ObjectId,
-    numericId: { type: Number, unique: true, min: 10000 },
-
-    // get name and phone from address instead
     customer: {
       type: {
         name: { type: String, trim: true, required: true },
@@ -18,18 +15,15 @@ const orderSchema = mongoose.Schema(
       },
       required: false
     },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-
-    // address: { type: addressSchema, required: false, default: null },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     isReceiveAtStore: { type: Boolean, default: false },
-
     status: {
       type: String,
       enum: Object.values(constants.ORDER.STATUS),
       default: constants.ORDER.STATUS.PENDING,
       required: true
     },
-    payment: { type: mongoose.Schema.Types.ObjectId, ref: 'Payment' },
+    paymentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Payment' },
     paymentStatus: {
       type: String,
       enum: Object.values(constants.ORDER.PAYMENT_STATUS),
@@ -43,29 +37,19 @@ const orderSchema = mongoose.Schema(
       variantName: { type: String, required: false },
       thumbnail: { type: String, required: false },
       marketPrice: { type: Number, required: false },
-      pricePerUnit: { type: Number, required: true }, // sale price
+      pricePerUnit: { type: Number, required: true },
       quantity: { type: Number, required: true }
     }],
-
-    subTotal: { type: Number, required: true },     // Tổng tiền hàng
-    shippingFee: { type: Number, required: true },  // Phí vận chuyển
-    discount: { type: Number, required: true },     // Giảm giá
-    total: { type: Number, required: true },        // Tổng tiền
-
+    subTotal: { type: Number, required: true },     
+    shippingFee: { type: Number, required: true }, 
+    discount: { type: mongoose.Schema.Types.ObjectId, ref: 'Discount' },
+    total: { type: Number, required: true },  
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },
   { _id: true, id: false, timestamps: true, versionKey: false, }
 );
 
-orderSchema.plugin(mongooseLeanVirtuals);
-orderSchema.plugin(removeMultiSpace);
-
-orderSchema.statics.generateNumericId = async function () {
-  const item = await this.findOne().select('numericId').sort('-numericId').lean().exec();
-  const id = parseInt(item?.numericId, 10) || 9999;
-  return id + 1;
-}
 
 orderSchema.pre('save', async function (next) {
   this.numericId = this.numericId || await this.constructor.generateNumericId();
