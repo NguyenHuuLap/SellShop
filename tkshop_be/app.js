@@ -31,7 +31,10 @@ app.set('view engine', 'jade');
 // app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use('/', indexRouter);
+
 app.use('/user', userRoutes);
+
+
 app.get('/test', (req, res) => {
   res.send('Hello World!');
 });
