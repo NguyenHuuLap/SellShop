@@ -11,15 +11,8 @@ const autoPopulateReplies = function (next) {
 const commentSchema = mongoose.Schema(
   {
     _id: mongoose.Types.ObjectId,
-    product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
-
-    // pass author value if logged in otherwise user info (name, email, phone, etc)
-    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false, default: null },
-    anonymousAuthor: {
-      name: { type: String, trim: true },
-      email: { type: String, match: constants.REGEX.EMAIL, trim: true },
-      phone: { type: String, match: constants.REGEX.PHONE, trim: true }
-    },
+    productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false, default: null },
     content: { type: String, trim: true, required: true },
     star: { type: String, default: 0, min: 1, max: 5 },
     replies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
@@ -29,7 +22,6 @@ const commentSchema = mongoose.Schema(
 );
 
 commentSchema.plugin(slugGenerator);
-// commentSchema.plugin(removeMultiSpace);
 commentSchema
   .pre('findOne', autoPopulateReplies)
   .pre('find', autoPopulateReplies);
