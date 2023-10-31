@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import slugGenerator from 'mongoose-slug-updater';
 import constants from '../constants.js';
+import encodedUtil from '../utils/encoded.util.js';
 
 const userSchema = mongoose.Schema(
     {
@@ -13,7 +14,7 @@ const userSchema = mongoose.Schema(
             minLength: 1,
             maxLength: 50
         },
-        lastName: {
+        lastname: {
             type: String,
             trim: true,
             require: [true, "Vui lòng nhập đầy đủ họ và tên"],
@@ -30,11 +31,11 @@ const userSchema = mongoose.Schema(
                 partialFilterExpression: { email: { $type: 'string' } }
             }
         },
-        hashPassword: {
+        hashpassword: {
             type: String,
             trim: true,
         },
-        emptyPassword: {
+        emptypassword: {
             type: Boolean,
             trim: true,
         },
@@ -89,6 +90,14 @@ const userSchema = mongoose.Schema(
 );
 
 userSchema.plugin(slugGenerator);
+
+userSchema.pre("save", async function (next) {
+    if (!this.isModified("hashpassword")) {
+        next();
+    }
+    this.hashpassword = encodedUtil.encodedPassword(this.hashpassword);
+    next();
+});
 
 const userModel = mongoose.model('User', userSchema);
 export default userModel;

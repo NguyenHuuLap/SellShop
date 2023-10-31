@@ -1,11 +1,19 @@
 import User from "../entities/user.entity.js";
 import mongoose from "mongoose";
+import constants from "../constants.js";
+import stringformatUtils from "../utils/stringformat.utils.js";
 
-async function getAll() {
-    return User.find()
-        .sort({ createdAt: -1 })
-        .lean({ virtuals: true })
-        .exec();
+const getIdentity = async (identity) => {
+    if(stringformatUtils.isUUID(identity))
+        return {_id: identity};
+    else if(stringformatUtils.isEmail(identity))
+        return {email: identity}
+    else if(stringformatUtils.isPhone(identity))
+        return {phone: identity}
+}
+
+const getAll = async () => {
+    return User.find().sort({ createdAt: -1 }).lean().exec();
 }
 
 async function add(data) {
@@ -16,32 +24,31 @@ async function add(data) {
     return user.save();
 }
 
-async function getByRole(role) {
-    return User.find({ role })
-      .sort({ createdAt: -1 })
-      .lean({ virtuals: true }).exec();
+const getByRole = async (role) => {
+    return User.find({ role }).sort({ createdAt: -1 }).lean().exec();
   }
 
-async function getOneById(id) {
-    return User.findById(id)
-      .lean({ virtuals: needVirtuals })
-      .exec();
+const getOneByIdentity = async (identity) => {
+    return User.findById(await this.getIdentity(identity)).lean().exec();
 }
 
-async function isExistEmail(email) {
-    const user = await User.findOne({ email }).select('_id');
-    return !!user;
-}
-
-async function update(id, data) {
-    return User.findByIdAndUpdate(id, data);
+const isExistEmail = async (email) => {
+    return !!(await User.findOne({ email }).select('_id'));
 }
 
 
-async function remove(id) {
-    const user = await User.findOneAndDelete({_id: id});
-    return !!user;
+const isExistPhone = async (phone) => {
+    return !!(await User.findOne({ phone }).select('_id'));
+}
+
+const update = async (id, data) => {
+    return User.findByIdAndUpdate(id, data, {new: true});
+}
+
+
+const remove = async (identity) => {
+    return !!(await User.findOneAndDelete(await getIdentity(identity)));
   }
 
-export default { getAll, add, getByRole, getOneById, isExistEmail, update, remove};
+export default { getIdentity, getAll, add, getByRole, getOneByIdentity, isExistEmail, isExistPhone, update, remove};
 
