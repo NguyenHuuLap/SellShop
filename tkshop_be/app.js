@@ -1,4 +1,7 @@
 import userRoutes from './src/frameworks-drivers/express/user.routes.js';
+import productRoutes from './src/frameworks-drivers/express/product.routes.js'
+import brandRoutes from './src/frameworks-drivers/express/brand.routes.js'
+import categoryRoutes from './src/frameworks-drivers/express/category.routes.js'
 import express from 'express';
 import mongoose from 'mongoose';
 import connectDB from './src/data-access/mongodb_connector.js';
@@ -33,7 +36,9 @@ app.set('view engine', 'jade');
 // app.use('/', indexRouter);
 
 app.use('/user', userRoutes);
-
+app.use('/product', productRoutes);
+app.use('/brand', brandRoutes);
+app.use('/category', categoryRoutes);
 
 app.get('/test', (req, res) => {
   res.send('Hello World!');
