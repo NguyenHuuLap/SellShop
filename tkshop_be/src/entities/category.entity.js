@@ -12,7 +12,7 @@ const categorySchema = mongoose.Schema(
     image: { type: String, trim: true, required: false },
 
     parent: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
-    children: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }],
+    children: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null }],
     isDelete: { type: Boolean, required: true, default: false },
     numOfProduct: { type: Number, required: true, default: 0, min: 0 },
 

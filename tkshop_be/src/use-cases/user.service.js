@@ -1,6 +1,5 @@
 import User from "../entities/user.entity.js";
 import mongoose from "mongoose";
-import constants from "../constants.js";
 import stringformatUtils from "../utils/stringformat.utils.js";
 
 const getIdentity = async (identity) => {
@@ -29,7 +28,7 @@ const getByRole = async (role) => {
   }
 
 const getOneByIdentity = async (identity) => {
-    return User.findById(await this.getIdentity(identity)).lean().exec();
+    return User.findOne(await getIdentity(identity)).lean().exec();
 }
 
 const isExistEmail = async (email) => {

@@ -1,15 +1,18 @@
+import httpStatus from "http-status";
+import { HTTP_STATUS } from "../../constants.js";
 import userService from "../../use-cases/user.service.js";
-import mongoose from "mongoose";
+import responseUtil from "../../utils/response.util.js";
+import encodedUtil from "../../utils/encoded.util.js";
 
 export const getAll = async (req, res, next) => {
     try {
+        console.log(encodedUtil.genRandomPassword());
         let users = await userService.getAll();
-        res.json(users);
+        if(users.length > 0 && users)
+            responseUtil.response(res, httpStatus.OK, `Get all user`, users);
+        else
+            responseUtil.response(res, httpStatus.NOT_FOUND, `There are no user`);
     } catch (err) { 
-        res.json({
-            message: err.message,
-            error: err
-          });
         next(err); 
     }
 }
@@ -30,13 +33,12 @@ export const add = async (req, res, next) => {
 
 export const getByRole = async (req, res, next) => {
     try {
-        const newUser = await userService.getByRole(req.body.role);
-        res.json(newUser);
+        const users = await userService.getByRole(req.body.role);
+        if(users.length > 0 && users)
+            responseUtil.response(res, httpStatus.OK, `Get all ${req.body.role} user`, users);
+        else
+            responseUtil.response(res, httpStatus.NOT_FOUND, `There are no ${req.body.role} user`);
     } catch (err) { 
-        res.json({
-            message: err.message,
-            error: err
-          });
         next(err); 
     }
 }
@@ -79,6 +81,3 @@ export const remove = async (req, res, next) => {
         next(err); 
     }
 }
-
-
-// export default { getAll };
