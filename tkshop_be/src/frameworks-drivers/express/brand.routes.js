@@ -6,7 +6,7 @@ import { add, getAll, remove, update } from "../../interface-adapters/controller
 const router = Router();
 
 router.get("/", getAll);
-router.post("/add", add);
+router.post("/", add);
 router.patch("/:brandId", update);
 router.delete("/:brandId", remove);
 

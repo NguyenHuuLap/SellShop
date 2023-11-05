@@ -1,5 +1,10 @@
 import userRoutes from './src/frameworks-drivers/express/user.routes.js';
 import authRoutes from './src/frameworks-drivers/express/auth.routes.js';
+import productRoutes from './src/frameworks-drivers/express/product.routes.js';
+import brandRoutes from './src/frameworks-drivers/express/brand.routes.js';
+import categoryRoutes from './src/frameworks-drivers/express/category.routes.js';
+
+
 import express from 'express';
 import connectDB from './src/data-access/mongodb_connector.js';
 import cors from 'cors';
@@ -21,7 +26,11 @@ app.use(cors());
 
 
 app.use('/user', userRoutes);
+app.use('/product', productRoutes);
+app.use('/brand', brandRoutes);
+app.use('/category', categoryRoutes);
 app.use('/auth', authRoutes);
+
 
 
 app.get('/test', (req, res) => {

@@ -20,7 +20,11 @@ async function add(data){
 async function update(id,data){
     return productModel.findByIdAndUpdate(id, data, {new:true});
 }
+
+async function remove(id){
+    return productModel.findByIdAndRemove(id);
+}
 // async function getByName(name){
 //     return productModel.fin
 // }
-export default{ getAll, add};
+export default{ getAll, add, update, remove};

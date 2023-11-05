@@ -119,9 +119,9 @@ productSchema.pre('validate', function (next) {
     return next();
   }
 
-  if (!configs.isDev) {
-    this.desc = sanitizeHtml(this.desc);
-  }
+  // if (!configs.isDev) {
+  //   this.desc = sanitizeHtml(this.desc);
+  // }
 
   next();
 });
