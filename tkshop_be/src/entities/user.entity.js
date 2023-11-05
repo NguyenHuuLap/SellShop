@@ -31,12 +31,11 @@ const userSchema = mongoose.Schema(
                 partialFilterExpression: { email: { $type: 'string' } }
             }
         },
+        googleId: {
+            type: String
+        },
         hashpassword: {
             type: String,
-            trim: true,
-        },
-        emptypassword: {
-            type: Boolean,
             trim: true,
         },
         phone: {
