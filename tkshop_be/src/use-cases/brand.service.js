@@ -17,8 +17,12 @@ async function add(data){
     return brand.save();
 }
 
-async function update(id, userId,data){
-    return brandModel.findByIdUpdate(id, userId, data);
+async function update(id, data){
+    return brandModel.findByIdAndUpdate(id, data,{new: true});
 }
 
-export default {getAll, add, update};
+async function remove(id){
+    return !!(await brandModel.findOneAndDelete({_id: id}));
+}
+
+export default {getAll, add, update, remove};

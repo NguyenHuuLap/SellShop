@@ -17,6 +17,9 @@ async function add(data){
     return product.save();
 }
 
+async function update(id,data){
+    return productModel.findByIdAndUpdate(id, data, {new:true});
+}
 // async function getByName(name){
 //     return productModel.fin
 // }

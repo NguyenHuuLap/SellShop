@@ -7,7 +7,7 @@ async function getAll(){
     .lean({})
     .exec();
 }
-async function add(){
+async function add(data){
     const category = new categoryModel({
         _id: new mongoose.Types.ObjectId(),
         ...data
@@ -15,12 +15,12 @@ async function add(){
     return category.save();
 }
 async function update(id, data){
-    return categoryModel.findByIdAndUpdate(id, data);
+    return categoryModel.findByIdAndUpdate(id, data,{new: true});
 }
 
 async function remove(id){
-    const category = await categoryModel.findOneAndDelete({_id: id});
-    return !!category;
+    return !!(await categoryModel.findOneAndDelete({_id: id}));
+    
 }
 
 export default {getAll, add, update, remove};

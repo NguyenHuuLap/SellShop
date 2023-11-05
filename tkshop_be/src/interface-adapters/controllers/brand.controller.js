@@ -28,8 +28,22 @@ export const add = async(req, res, next) => {
 }
 export const update = async(req, res, next) =>{
     try{
+        const updateBrand = await brandService.update(req.params.brandId, req.body);
+        res.json(updateBrand);
     }
     catch(err){
+        res.json({
+            message: err.message,
+            error: err
+        });
+        next(err);
+    }
+}
+export const remove = async(req, res, next) => {
+    try{
+        const removeBrand = await brandService.remove(req.params.brandId);
+        res.json(removeBrand);
+    }catch(err){
         res.json({
             message: err.message,
             error: err

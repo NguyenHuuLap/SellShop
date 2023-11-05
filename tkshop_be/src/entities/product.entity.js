@@ -8,50 +8,49 @@ import slugGenerator from 'mongoose-slug-updater';
 const { Schema } = mongoose;
 
 const specificationSchema = new Schema({
-  name: { type: String, trim: true, required: true },
-  key: { type: String, slug: "name", required: false },
-  values: [{ type: String, trim: true, required: true }]
+  name: { type: String, trim: true, required: true }, // tên phần cứng
+  key: { type: String, slug: "name", required: false }, 
+  values: [{ type: String, trim: true, required: true }] // thông số 
 }, { timestamps: false, versionKey: false, id: false, _id: false });
 
 const specificationDetailSchema = new Schema({
-  groupName: { type: String, trim: true, required: true },
+  groupName: { type: String, trim: true, required: true }, //tên thông số chi tiết phần cứng
   groupKey: { type: String, slug: "groupName", required: false },
-  groupItems: [specificationSchema]
+  groupItems: [specificationSchema] //overspecs
 }, { timestamps: false, versionKey: false, id: false, _id: false });
 
 const productVariantSchema = new Schema({
-  sku: { type: String, trim: true, required: true },
+  sku: { type: String, trim: true, required: false }, //
 
-  variantName: { type: String, trim: true },
+  variantName: { type: String, trim: true }, //màu sắc
   slug: { type: String, slug: "variantName", unique: false },
 
-  price: { type: Number, required: true },
-  marketPrice: { type: Number, required: true }, 
-  quantity: { type: Number, min: 0, required: true }, 
-  sold: { type: Number, min: 0, default: 0 },  
-  addOverSpecs: [specificationSchema],
-  addDetailSpecs: [specificationDetailSchema],
-  thumbnail: { type: String, trim: true, required: false },
-  pictures: [{ type: String, trim: true }]
+  price: { type: Number, required: true }, //giá khuyến mãi
+  marketPrice: { type: Number, required: true },//gốc 
+  quantity: { type: Number, min: 0, required: true }, // số lượng
+  sold: { type: Number, min: 0, default: 0 },  //đã bán
+  addOverSpecs: [specificationSchema], //thông số đặc biệt
+  addDetailSpecs: [specificationDetailSchema],//thông số chi tiết đặc biệt
+  thumbnail: { type: String, trim: true, required: false }, //hình ảnh thu nhỏ
+  pictures: [{ type: String, trim: true }] // hình ảnh
 }, { timestamps: true, versionKey: false });
 
 const productSchema = new Schema({
   _id: mongoose.Types.ObjectId,
 
-  name: { type: String, trim: true, required: true, minLength: 6, maxLength: 255 },
+  name: { type: String, trim: true, required: true, minLength: 6, maxLength: 255 }, //tên sp
   slug: { type: String, slug: "name", slugPaddingSize: 2, unique: true },
 
-  desc: { type: String, required: false },
-  video: { type: String, trim: true, required: false },
+  desc: { type: String, required: false }, // mô tả
+  video: { type: String, trim: true, required: false }, // nếu có
 
-  overSpecs: [specificationSchema],
-  detailSpecs: [specificationDetailSchema],
-  specPicture: { type: String, trim: true },
+  overSpecs: [specificationSchema], // lên trên
+  detailSpecs: [specificationDetailSchema], // lên trên
+  specPicture: { type: String, trim: true }, //hình phần cứng
 
-  warrantyPeriod: { type: Number, min: 0, default: 12 },                      // in months
-  origin: { type: String, trim: true, required: false },                      // country of manufacture
+  warrantyPeriod: { type: Number, min: 0, default: 12 },                      // in months thời gian bảo hành
 
-  brandId: { type: mongoose.Schema.Types.ObjectId, ref: 'Brand', default: null },
+  brandId: { type: mongoose.Schema.Types.ObjectId, ref: 'Brand', default: null }, 
   categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
   categorySub1Id: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
   categorySub2Id: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
@@ -66,15 +65,15 @@ const productSchema = new Schema({
     }
   ],
 
-  policies: [{ type: String, trim: true }],
-  hightLightPics: [{ type: String, trim: true }],
+  policies: [{ type: String, trim: true }], //chính sách
+  hightLightPics: [{ type: String, trim: true }], //
 
-  variants: [productVariantSchema],
-  minPrice: { type: Number, min: 1000 },
-  maxPrice: { type: Number, min: 1000 },
+  variants: [productVariantSchema], 
+  minPrice: { type: Number, min: 1000 }, //giá nhỏ nhắt
+  maxPrice: { type: Number, min: 1000 }, //giá lớn nhắt
 
   isDelete: { type: Boolean, default: false },
-  isOutOfStock: { type: Boolean, default: false },
+  isOutOfStock: { type: Boolean, default: false }, //hết hàng hay chưa?
 
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
