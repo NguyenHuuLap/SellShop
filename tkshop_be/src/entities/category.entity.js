@@ -12,7 +12,7 @@ const categorySchema = mongoose.Schema(
     image: { type: String, trim: true, required: false },
 
     parent: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
-    children: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null }],
+    children: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category'}],
     isDelete: { type: Boolean, required: true, default: false },
     numOfProduct: { type: Number, required: true, default: 0, min: 0 },
 
@@ -26,7 +26,7 @@ categorySchema.plugin(slugGenerator);
 
 categorySchema.statics.generateOrder = async function () {
   const item = await this.findOne().select('numOrder').sort('-numOrder').lean().exec();
-  const order = parseInt(item?.order, 10) || 0;
+  const order = parseInt(item?.numOrder, 10) || 0;
   return order + 1;
 }
 

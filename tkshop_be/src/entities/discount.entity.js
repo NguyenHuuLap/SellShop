@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import slugGenerator from 'mongoose-slug-updater';
-// import { DISCOUNT_CONS } from '../constants.js';
-// import removeMultiSpace from './plugins/remove-multi-space.js';
+import constants from '../constants.js';
 
 const discountSchema = mongoose.Schema(
   {
@@ -16,9 +15,15 @@ const discountSchema = mongoose.Schema(
     unlimitedQty: { type: Boolean, required: false, default: false },// giới hạn số lượt dùng
     discount: { type: Number, required: true, default: 0 }, //con số giảm giá
     discountType: { 
+<<<<<<< HEAD
       type: String, trim:  true, //
       enum: Object.values(DISCOUNT_CONS.TYPE),
       default: DISCOUNT_CONS.TYPE.PERCENT
+=======
+      type: String, trim:  true,
+      enum: Object.values(constants.DISCOUNT_CONS.TYPE),
+      default: constants.DISCOUNT_CONS.TYPE.PERCENT
+>>>>>>> khang
     },
     minimumTotal: { type: Number, required: false, default: 0 },
     maximumApplied: { type: Number, required: false, default: 0 },
@@ -29,7 +34,6 @@ const discountSchema = mongoose.Schema(
 );
 
 discountSchema.plugin(slugGenerator);
-// discountSchema.plugin(removeMultiSpace);
 
 const discountModel = mongoose.model('Discount', discountSchema);
 export default discountModel;

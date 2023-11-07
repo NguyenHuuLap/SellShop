@@ -1,19 +1,16 @@
 import mongoose from 'mongoose';
 import mongooseLeanVirtuals from 'mongoose-lean-virtuals';
-// import removeMultiSpace from './plugins/remove-multi-space.js';
-// import constants from '../constants.js';
-// import addressSchema from './schemas/address.schema.js';
-
+import constants from '../constants.js';
 
 const orderSchema = mongoose.Schema(
   {
     _id: mongoose.Types.ObjectId,
     customer: {
+      _id: false,
       type: {
         name: { type: String, trim: true, required: true },
         phone: { type: String, trim: true, required: true },
       },
-      required: false
     },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     isReceiveAtStore: { type: Boolean, default: false },
@@ -31,6 +28,7 @@ const orderSchema = mongoose.Schema(
       required: true
     },
     items: [{
+      _id: false,
       productId: { type: String, required: true },
       sku: { type: String, required: true },
       productName: { type: String, required: false },
@@ -52,7 +50,6 @@ const orderSchema = mongoose.Schema(
 
 
 orderSchema.pre('save', async function (next) {
-  this.numericId = this.numericId || await this.constructor.generateNumericId();
 
   if (!this?.customer && !this?.user) {
     return next(new Error('Invalid customer or user'));
@@ -61,11 +58,6 @@ orderSchema.pre('save', async function (next) {
   if (this.isReceiveAtStore) {
     this.address = null;
   } 
-//   else {
-//     if (!this.address) {
-//       return next(new Error('Missing address'));
-//     }
-//   }
 
   next();
 });

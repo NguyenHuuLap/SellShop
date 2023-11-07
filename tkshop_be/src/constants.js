@@ -21,6 +21,11 @@ export const ORDER = {
     COMPLETED: 'completed',   // order has been delivered
     CANCELLED: 'cancelled'    // order has been cancelled
   },
+  PAYMENT_STATUS: {
+    PENDING: 'pending',       // payment is pending
+    PAID: 'paid',             // payment has been made
+    CANCELLED: 'cancelled'    // payment has been cancelled
+  }
 };
 
 export const DISCOUNT_CONS = {
@@ -129,5 +134,6 @@ export const allowImageMineTypes = [
 export default {
   USER,
   ORDER,
-  REGEX
+  REGEX,
+  DISCOUNT_CONS,
 }

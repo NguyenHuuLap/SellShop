@@ -43,6 +43,7 @@ export const isAuthorized = authorized();
 export const isCustomer = authorized(USER.ROLE.CUSTOMER);
 export const isStaff = authorized(USER.ROLE.STAFF);
 export const isAdmin = authorized(USER.ROLE.ADMIN);
+export const isAdminOrStaff = authorized([USER.ROLE.ADMIN, USER.ROLE.STAFF]);
 
 
 export default {
@@ -51,5 +52,6 @@ export default {
     isAuthorized,
     isCustomer,
     isStaff,
-    isAdmin
+    isAdmin,
+    isAdminOrStaff
 };

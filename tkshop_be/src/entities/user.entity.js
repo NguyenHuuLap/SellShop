@@ -60,8 +60,11 @@ const userSchema = mongoose.Schema(
             required: true
         },
         avatar: {
-            type: String,
-            trim: true,
+            type: {
+                _id: false,
+                url: { type: String, trim: true, required: true},
+                public_id: { type: String, trim: true, required: true},
+            },
             required: false
         },
         birth: {

@@ -1,11 +1,27 @@
 import mongoose from "mongoose";
 import productModel from "../entities/product.entity.js";
+<<<<<<< HEAD
 import categoryService from "./category.service.js";
 import brandService from "./brand.service.js";
 import StringUtils from "../utils/StringUtils.js";
 import ApiErrorUtils from "../utils/ApiErrorUtils.js";
 
 const SELECT_FIELD = '_id name slug desc video overSpecs origin category brand tags views rate variants quantity warrantyPeriod isHide createdAt updatedAt';
+=======
+import stringformatUtils from "../utils/stringformat.utils.js";
+
+const getIdentity = async (identity) => {
+    if (stringformatUtils.isUUID(identity))
+        return {_id: identity}
+    else
+        return {slug: identity}
+}
+
+const getOneByIdentity = async (identity, variant) => {
+    return productModel.findOne(await getIdentity(identity)).populate('brandId categoryId').lean().exec();
+
+}
+>>>>>>> khang
 
 const initialProductVariant = async(data) =>{
     let variant ={};
@@ -113,6 +129,7 @@ const initialProduct = async(data, isAddNew = false) =>{
 
 const getFullAll = async () =>{
     return productModel.find()
+    .populate('brandId categoryId')
     .sort({createdAt: -1})
     .lean()
     .exec();
@@ -151,6 +168,7 @@ async function add(data){
     return product.save();
 }
 
+<<<<<<< HEAD
 const updateProductVariant = async(productId, sku, variantData) =>{
     const product = await getOneProduct(productId);
     if(!product){
@@ -164,6 +182,9 @@ const updateProductVariant = async(productId, sku, variantData) =>{
     }
     return product.save();
 } 
+=======
+
+>>>>>>> khang
 
 async function update(id,data){
     return productModel.findByIdAndUpdate(id, data, {new:true});
@@ -175,4 +196,8 @@ async function remove(id){
 // async function getByName(name){
 //     return productModel.fin
 // }
+<<<<<<< HEAD
 export default{ getAll, getFullAll, updateProductVariant, getOneProduct, add, update, remove};
+=======
+export default{ getAll, add, getOneByIdentity};
+>>>>>>> khang
