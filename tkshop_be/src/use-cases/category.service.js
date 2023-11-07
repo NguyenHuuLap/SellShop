@@ -1,26 +1,33 @@
 import mongoose from "mongoose";
 import categoryModel from "../entities/category.entity.js"
 
-async function getAll(){
+const getAll = async () =>{
     return categoryModel.find()
     .sort({createAt: -1})
     .lean({})
     .exec();
 }
-async function add(data){
+
+const getId = async(id) =>{
+    const result = await categoryModel.findById(id).lean().exec();
+    return result ? result._id : null;
+}
+
+const add = async (data) => {
     const category = new categoryModel({
         _id: new mongoose.Types.ObjectId(),
         ...data
     });
     return category.save();
 }
-async function update(id, data){
+
+const update = async (id, data) => {
     return categoryModel.findByIdAndUpdate(id, data,{new: true});
-}
+}   
 
-async function remove(id){
+const remove = async (id) => {
     return !!(await categoryModel.findOneAndDelete({_id: id}));
-    
 }
 
-export default {getAll, add, update, remove};
+
+export default {getAll, getId, add, update, remove};

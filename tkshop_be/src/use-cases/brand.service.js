@@ -1,15 +1,19 @@
 import mongoose from "mongoose";
 import brandModel from "../entities/brand.entity.js";
 
-
-async function getAll(){
+const getAll = async() =>{
     return brandModel.find()
         .sort({createdAt:-1})
         .lean({})
         .exec();
 }
 
-async function add(data){
+const getId = async(id)=>{
+    const result = brandModel.findById(id).lean().exec();
+    return result ? result._id : null;
+}
+
+const add = async(data)=>{
     const brand = new brandModel({
         _id: new mongoose.Types.ObjectId(),
         ...data
@@ -17,12 +21,12 @@ async function add(data){
     return brand.save();
 }
 
-async function update(id, data){
+const update = async(id,data) => {
     return brandModel.findByIdAndUpdate(id, data,{new: true});
 }
 
-async function remove(id){
+const remove = async(id) => {
     return !!(await brandModel.findOneAndDelete({_id: id}));
 }
 
-export default {getAll, add, update, remove};
+export default {getAll, add, update, remove, getId};
