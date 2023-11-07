@@ -30,8 +30,11 @@ function authorized(role = null) {
       const user = await userService.getOneByIdentity(req.user._id);
       if (!user) 
         return next(new ApplicationError(COMMON_ERROR.UNAUTHORIZED));
+<<<<<<< HEAD
       
       
+=======
+>>>>>>> 276fedb36618be75a78887ddfeb7c28f6edaa805
       if(role && !role.includes(user.role))
         return next(new ApplicationError(COMMON_ERROR.FORBIDDEN));
       
