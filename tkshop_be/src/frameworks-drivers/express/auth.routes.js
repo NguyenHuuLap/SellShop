@@ -9,7 +9,7 @@ passportConfig(passport);
 
 router.get("/login", login);
 
-router.get("/google", passport.authenticate("google", {scope: ['profile', 'email']}));
+router.get("/google", passport.authenticate("google", {scope: ['profile', 'email', '_id']}));
 
 router.get(
     '/google/callback',

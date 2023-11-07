@@ -26,3 +26,7 @@ export const loginWithGoogle = async (req, res, next) => {
         next(err);
     }
 }
+
+export const logout = async (req, res, next) => {
+    
+}

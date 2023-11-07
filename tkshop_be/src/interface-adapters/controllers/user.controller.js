@@ -1,12 +1,111 @@
 import httpStatus from "http-status";
-import { HTTP_STATUS } from "../../constants.js";
 import userService from "../../use-cases/user.service.js";
 import responseUtil from "../../utils/response.util.js";
-import encodedUtil from "../../utils/encoded.util.js";
+
+// **User
+// *Get info of logged user
+export const getOwnerUser = async (req, res, next) => {
+    try {
+        if(!req.user)
+            responseUtil.response(res, httpStatus.UNAUTHORIZED, `User need login`);
+        let user = await userService.getOneByIdentity(req.user.email)
+        if(user)
+            responseUtil.response(res, httpStatus.OK, `Get user ${user.email} success`, users);
+        else
+            responseUtil.response(res, httpStatus.NOT_FOUND, `There are no user with email ${user.email}`);
+
+    } catch (err){
+        next(err);
+    }
+}
+
+// *Update info of logged user
+export const updateByUser = async (req, res, next) => {
+    try {
+        if(!req.user)
+            responseUtil.response(res, httpStatus.UNAUTHORIZED, `User need login`);
+        let user = await userService.update(req.user.email, req.body)
+        if(user)
+            responseUtil.response(res, httpStatus.OK, `Update user ${user.email} success`, users);
+        else
+            responseUtil.response(res, httpStatus.NOT_FOUND, `User cannot update`);
+
+    } catch (err){
+        next(err);
+    }
+}
+
+// *Update password of logged user 
+export const changePasswordByUser = async (req, res, next) => {
+    try {
+        if(!req.user)
+            responseUtil.response(res, httpStatus.UNAUTHORIZED, `User need login`);
+        let user = await userService.changePassword(req.user.email, req.body.oldPassword, req.body.newPassword);
+        if(user)
+            responseUtil.response(res, httpStatus.OK, `Update password of user ${user.email} success`, users);
+        else
+            responseUtil.response(res, httpStatus.NOT_FOUND, `User cannot update`);
+
+    } catch (err){
+        next(err);
+    }
+}
+
+// *Check email exist
+
+export const isExistEmail = async (req, res, next) => {
+    try {
+        let result = await userService.isExistEmail(req.body.email);
+        let resultStr = `${req.body.email} is `
+        if (result) resultStr += `exist`
+        else resultStr += `not exist`
+        responseUtil.response(res, httpStatus.OK, resultStr, result);
+        
+    } catch (err) { 
+        next(err); 
+    }
+}
+
+// *Check phone exist
+
+export const isExistPhone = async (req, res, next) => {
+    try {
+        let result = await userService.isExistPhone(req.body.phone);
+        let resultStr = `${req.body.phone} is `
+        if (result) resultStr += `exist`
+        else resultStr += `not exist`
+        responseUtil.response(res, httpStatus.OK, resultStr, result);
+        
+    } catch (err) { 
+        next(err); 
+    }
+}
+
+// *Get address 
+export const getListAdress = async (req, res, next) => {
+
+}
+
+// *Get address 
+export const getOneAdress = async (req, res, next) => {
+
+}
+
+// *Get address 
+export const updateAddress = async (req, res, next) => {
+
+}
+
+export const deleteAddress = async (req, res, next) => {
+
+}
+
+export const setDefaultAddress = async (req, res, next) => {
+
+}
 
 export const getAll = async (req, res, next) => {
     try {
-        console.log(encodedUtil.genRandomPassword());
         let users = await userService.getAll();
         if(users.length > 0 && users)
             responseUtil.response(res, httpStatus.OK, `Get all user`, users);

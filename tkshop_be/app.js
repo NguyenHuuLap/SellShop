@@ -1,11 +1,15 @@
 import userRoutes from './src/frameworks-drivers/express/user.routes.js';
 import authRoutes from './src/frameworks-drivers/express/auth.routes.js';
+import orderRoutes from './src/frameworks-drivers/express/order.routes.js';
+import commentRoutes from './src/frameworks-drivers/express/comment.routes.js';
+import categoryRoutes from './src/frameworks-drivers/express/category.routes.js'
 import express from 'express';
 import connectDB from './src/data-access/mongodb_connector.js';
 import cors from 'cors';
 import errorMiddelware from './src/interface-adapters/middleware/error.middelware.js';
 import dotenv from 'dotenv';
 import passport from 'passport';
+
 
 dotenv.config({ path: './src/config.env' })
 connectDB();
@@ -18,10 +22,11 @@ app.use(passport.initialize());
 app.use(express.json());
 app.use(cors());
 
-
-
 app.use('/user', userRoutes);
+app.use('/category', categoryRoutes);
 app.use('/auth', authRoutes);
+app.use('/order', orderRoutes);
+app.use('/comment', commentRoutes);
 
 
 app.get('/test', (req, res) => {
