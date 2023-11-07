@@ -1,4 +1,11 @@
 import productService from "../../use-cases/product.service.js"
+<<<<<<< HEAD
+
+
+export const getAll =async(req, res, next)=>{
+    try{
+        let products = await productService.getAll();
+=======
 import FormatUtils from "../../utils/FormatUtils.js";
 
 
@@ -19,6 +26,7 @@ export const formatProduct = (product, req) =>{
 export const getFullAll =async(req, res, next)=>{
     try{
         let products = await productService.getFullAll();
+>>>>>>> 276fedb36618be75a78887ddfeb7c28f6edaa805
         res.json(products);
     }
     catch(err){
@@ -28,6 +36,8 @@ export const getFullAll =async(req, res, next)=>{
         });
         next(err);
     }
+<<<<<<< HEAD
+=======
 }
 
 export const getOneProduct = async(req,res, next) =>{
@@ -96,4 +106,5 @@ export const remove = async(req, res, next) => {
         });
         next(err);
     }
+>>>>>>> 276fedb36618be75a78887ddfeb7c28f6edaa805
 }

@@ -91,4 +91,8 @@ const softDelete = async (identity) => {
     return await findOneAndUpdate(category._id, {isDelete: !category.isDelete}, {new: true});
 }
 
+<<<<<<< HEAD
 export default { getAll, add, update, remove, getOneByIdentify, countProductIncrease, countProductDecrease, softDelete };
+=======
+export default { getAll, add, update, remove, getOneByIdentify, countProductIncrease, countProductDecrease, softDelete };
+>>>>>>> 276fedb36618be75a78887ddfeb7c28f6edaa805
