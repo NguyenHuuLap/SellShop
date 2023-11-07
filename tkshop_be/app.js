@@ -10,12 +10,10 @@ import errorMiddelware from './src/interface-adapters/middleware/error.middelwar
 import dotenv from 'dotenv';
 import passport from 'passport';
 
-
-dotenv.config({ path: './src/config.env' })
-connectDB();
-
+dotenv.config()
 var app = express();
 
+connectDB();
 app.use(passport.initialize());
   
 

@@ -52,14 +52,12 @@ const transaction = async (data) => {
             if (variant.sold + item.qty > variant.quantity)
                 throw new ApplicationError(res, httpStatus.NOT_FOUND, `Product out of stock`);
 
-            console.log(0);
             await productModel.findOneAndUpdate(
                 { _id: item.productId, 'variants.sku': item.sku },
                 { $inc: { 'variants.$.sold': item.quantity } },
                 { session }
             );
 
-            console.log(1);
             listItem.push({
                 productId: item.productId,
                 sku: product.variants[0].sku,
@@ -70,7 +68,6 @@ const transaction = async (data) => {
                 pricePerUnit: variant.price,
                 quantity: item.quantity
             })
-            console.log(2);
 
         }
         data.items = listItem;
@@ -119,15 +116,27 @@ const getList = async (userId = null, search = null, status = null, paymentStatu
     }).sort(sort).lean().exec();
 }
 
+const getAll = async (sort = null) => {
+    return await getList(null, null, null, null, sort);
+}
+
 const getOne = async (identity) => {
     return await orderModel.findOne(await getIdentity(identity)).lean().exec();
+}
+
+const checkOwner = async (orderId, userId) => {
+    const order = await orderModel.findById(orderId).exec();
+    if (!order)
+        throw new Error("No order found");
+    if (order.userId.toString() !== userId)
+        throw new Error("Unauthorization");
 }
 
 const create = async (data, userId) => {
     const user = await userModel.findById(userId).exec();
     if (!user)
         throw new Error("User not found");
-    Object.assign(data, { createdBy: userId });
+    Object.assign(data, { createdBy: userId, userId: userId });
     return await transaction(data);
 }
 
@@ -139,12 +148,16 @@ const update = async (orderId, data, userId) => {
     if (!user)
         throw new Error("User not found");
 
+    checkOwner(orderId, userId);
+
     data.updatedBy = userId;
 
     if (data.status === order.status)
         throw new Error(`Order has been ${(data.status).toLowerCase()}`);
 
-    return User.findByIdAndUpdate(orderId, data, { new: true });
+    console.log(data);
+
+    return orderModel.findByIdAndUpdate(orderId, data, { new: true }).lean().exec();
 }
 
 export default {
@@ -152,5 +165,6 @@ export default {
     getList,
     getOne,
     create,
-    update
+    update,
+    getAll
 }
