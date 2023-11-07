@@ -1,14 +1,18 @@
 import mongoose from "mongoose";
 import productModel from "../entities/product.entity.js";
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> develop
 import categoryService from "./category.service.js";
 import brandService from "./brand.service.js";
 import StringUtils from "../utils/StringUtils.js";
 import ApiErrorUtils from "../utils/ApiErrorUtils.js";
 
 const SELECT_FIELD = '_id name slug desc video overSpecs origin category brand tags views rate variants quantity warrantyPeriod isHide createdAt updatedAt';
+<<<<<<< HEAD
 =======
 >>>>>>> 276fedb36618be75a78887ddfeb7c28f6edaa805
 import stringformatUtils from "../utils/stringformat.utils.js";
@@ -29,6 +33,8 @@ const getOneByIdentity = async (identity, variant) => {
 async function getAll(){
 =======
 >>>>>>> khang
+=======
+>>>>>>> develop
 
 const initialProductVariant = async(data) =>{
     let variant ={};
@@ -180,9 +186,12 @@ async function add(data){
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> develop
 const updateProductVariant = async(productId, sku, variantData) =>{
     const product = await getOneProduct(productId);
     if(!product){
@@ -196,10 +205,13 @@ const updateProductVariant = async(productId, sku, variantData) =>{
     }
     return product.save();
 } 
+<<<<<<< HEAD
 =======
 
 >>>>>>> khang
 >>>>>>> 276fedb36618be75a78887ddfeb7c28f6edaa805
+=======
+>>>>>>> develop
 
 async function update(id,data){
     return productModel.findByIdAndUpdate(id, data, {new:true});
@@ -217,9 +229,11 @@ async function remove(id){
 // async function getByName(name){
 //     return productModel.fin
 // }
-<<<<<<< HEAD
 export default{ getAll, getFullAll, updateProductVariant, getOneProduct, add, update, remove};
+<<<<<<< HEAD
 =======
 export default{ getAll, add, getOneByIdentity};
 >>>>>>> khang
 >>>>>>> 276fedb36618be75a78887ddfeb7c28f6edaa805
+=======
+>>>>>>> develop
