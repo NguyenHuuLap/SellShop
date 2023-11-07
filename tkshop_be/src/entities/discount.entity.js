@@ -15,15 +15,9 @@ const discountSchema = mongoose.Schema(
     unlimitedQty: { type: Boolean, required: false, default: false },// giới hạn số lượt dùng
     discount: { type: Number, required: true, default: 0 }, //con số giảm giá
     discountType: { 
-<<<<<<< HEAD
-      type: String, trim:  true, //
-      enum: Object.values(DISCOUNT_CONS.TYPE),
-      default: DISCOUNT_CONS.TYPE.PERCENT
-=======
       type: String, trim:  true,
       enum: Object.values(constants.DISCOUNT_CONS.TYPE),
       default: constants.DISCOUNT_CONS.TYPE.PERCENT
->>>>>>> khang
     },
     minimumTotal: { type: Number, required: false, default: 0 },
     maximumApplied: { type: Number, required: false, default: 0 },
