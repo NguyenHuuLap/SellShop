@@ -4,21 +4,6 @@ import stringformatUtils from "../utils/stringformat.utils.js";
 import { ApplicationError } from "../utils/error.util.js";
 import httpStatus from "http-status";
 
-<<<<<<< HEAD
-const getAll = async () =>{
-    return categoryModel.find()
-    .sort({createAt: -1})
-    .lean({})
-    .exec();
-}
-
-const getId = async(id) =>{
-    const result = await categoryModel.findById(id).lean().exec();
-    return result ? result._id : null;
-}
-
-const add = async (data) => {
-=======
 async function getAll() {
     return categoryModel.find({ parent: null })
         .populate('children')
@@ -41,7 +26,6 @@ const getOneByIdentify = async (identify) => {
 async function add(data, userId) {
     const numOrder = await categoryModel.generateOrder()
 
->>>>>>> khang
     const category = new categoryModel({
         _id: new mongoose.Types.ObjectId(),
         numOrder,
@@ -65,18 +49,6 @@ async function add(data, userId) {
     return category.save();
 }
 
-<<<<<<< HEAD
-const update = async (id, data) => {
-    return categoryModel.findByIdAndUpdate(id, data,{new: true});
-}   
-
-const remove = async (id) => {
-    return !!(await categoryModel.findOneAndDelete({_id: id}));
-}
-
-
-export default {getAll, getId, add, update, remove};
-=======
 async function update(id, data, userUpdate) {
     const oldCategory = await getOneByIdentify(id);
 
@@ -120,4 +92,3 @@ const softDelete = async (identity) => {
 }
 
 export default { getAll, add, update, remove, getOneByIdentify, countProductIncrease, countProductDecrease, softDelete };
->>>>>>> khang
