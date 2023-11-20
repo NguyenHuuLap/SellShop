@@ -1,34 +1,12 @@
 import mongoose from "mongoose";
 import productModel from "../entities/product.entity.js";
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 import categoryService from "./category.service.js";
 import brandService from "./brand.service.js";
 import StringUtils from "../utils/StringUtils.js";
 import ApiErrorUtils from "../utils/ApiErrorUtils.js";
-
-const SELECT_FIELD = '_id name slug desc video overSpecs origin category brand tags views rate variants quantity warrantyPeriod isHide createdAt updatedAt';
-=======
->>>>>>> 276fedb36618be75a78887ddfeb7c28f6edaa805
 import stringformatUtils from "../utils/stringformat.utils.js";
 
-const getIdentity = async (identity) => {
-    if (stringformatUtils.isUUID(identity))
-        return {_id: identity}
-    else
-        return {slug: identity}
-}
-
-const getOneByIdentity = async (identity, variant) => {
-    return productModel.findOne(await getIdentity(identity)).populate('brandId categoryId').lean().exec();
-
-}
-<<<<<<< HEAD
-
-async function getAll(){
-=======
->>>>>>> khang
+const SELECT_FIELD = '_id name slug desc video overSpecs origin category brand tags views rate variants quantity warrantyPeriod isHide createdAt updatedAt';
 
 const initialProductVariant = async(data) =>{
     let variant ={};
@@ -135,7 +113,6 @@ const initialProduct = async(data, isAddNew = false) =>{
 }
 
 const getFullAll = async () =>{
->>>>>>> 276fedb36618be75a78887ddfeb7c28f6edaa805
     return productModel.find()
     .populate('brandId categoryId')
     .sort({createdAt: -1})
@@ -143,8 +120,6 @@ const getFullAll = async () =>{
     .exec();
 }
 
-<<<<<<< HEAD
-=======
 async function getAll(options = {}){
     let {
         fields,
@@ -166,11 +141,15 @@ async function getAll(options = {}){
     return products
 }
 
-async function getOneProduct(id){
-    return productModel.findById(id);
+async function getOneProduct(identity){
+    let str;
+    if(stringformatUtils.isUUID(identity))
+        str = {_id: identity};
+    else
+        str = {slug: identity};
+    return await productModel.findOne(str);
 }
 
->>>>>>> 276fedb36618be75a78887ddfeb7c28f6edaa805
 async function add(data){
     const product = new productModel({
         _id: new mongoose.Types.ObjectId(),
@@ -179,10 +158,6 @@ async function add(data){
     return product.save();
 }
 
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
 const updateProductVariant = async(productId, sku, variantData) =>{
     const product = await getOneProduct(productId);
     if(!product){
@@ -196,20 +171,10 @@ const updateProductVariant = async(productId, sku, variantData) =>{
     }
     return product.save();
 } 
-=======
-
->>>>>>> khang
->>>>>>> 276fedb36618be75a78887ddfeb7c28f6edaa805
 
 async function update(id,data){
     return productModel.findByIdAndUpdate(id, data, {new:true});
 }
-<<<<<<< HEAD
-// async function getByName(name){
-//     return productModel.fin
-// }
-export default{ getAll, add, getOneByIdentity};
-=======
 
 async function remove(id){
     return !!(await productModel.findByIdAndRemove(id));
@@ -217,9 +182,4 @@ async function remove(id){
 // async function getByName(name){
 //     return productModel.fin
 // }
-<<<<<<< HEAD
 export default{ getAll, getFullAll, updateProductVariant, getOneProduct, add, update, remove};
-=======
-export default{ getAll, add, getOneByIdentity};
->>>>>>> khang
->>>>>>> 276fedb36618be75a78887ddfeb7c28f6edaa805

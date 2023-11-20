@@ -1,12 +1,16 @@
 import React from 'react';
 import './App.css';
 import Header from './components/header/presentation/Header.js';
-import { ThemeProvider, createTheme } from '@mui/material';
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import Login from './features/auth/login/presentation/Login';
 import ForgotPassword from './features/auth/forgot_password/presentation/ForgotPassword';
 import Profile from './features/profile/presentation/Profile';
-import Home from './components/home/Home';
+import Home from './features/home/presentation/Home';
 import BlockMenu from './features/profile/components/BlockMenu';
+import ProductDetail from './features/product/product_detail.jsx/presentation/ProductDetail';
+import { StyledEngineProvider } from '@mui/material';
+import Search from './features/search/presentation/Search';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const theme = createTheme({
   typography: {
@@ -22,17 +26,40 @@ const theme = createTheme({
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(','),
+  },
+  palette: {
+    background: {
+      default: "#ffffff"
+    }
   }
 });
 
 function App() {
   return (
+
     <ThemeProvider theme={theme} >
-      <Header/>
-      <Profile/>
+      <CssBaseline>
+        <StyledEngineProvider injectFirst>
+          <Header />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" name="Home" Component={Home} />
+              <Route path="/search" name="Search" element={<Search />} />
+              <Route path="/product-detail/:productSlug/:variantSku" name="Product Detail" Component={ProductDetail} />
+              {/* </Route>
+            <Route exact path="/search">
+              <Search />
+            </Route>
+            <Route exact path="/product">
+              <ProductDetail />
+            </Route> */}
+            </Routes>
+          </BrowserRouter>
+        </StyledEngineProvider>
+      </CssBaseline>
     </ThemeProvider>
 
-    
+
 
   );
 }
