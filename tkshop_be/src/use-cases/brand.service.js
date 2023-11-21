@@ -29,8 +29,4 @@ const remove = async(id) => {
     return !!(await brandModel.findOneAndDelete({_id: id}));
 }
 
-<<<<<<< HEAD
 export default {getAll, add, update, remove, getId};
-=======
-export default {getAll, add, update, remove, getId};
->>>>>>> dev-khang

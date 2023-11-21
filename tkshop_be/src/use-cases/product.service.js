@@ -4,10 +4,7 @@ import categoryService from "./category.service.js";
 import brandService from "./brand.service.js";
 import StringUtils from "../utils/StringUtils.js";
 import ApiErrorUtils from "../utils/ApiErrorUtils.js";
-<<<<<<< HEAD
-=======
 import stringformatUtils from "../utils/stringformat.utils.js";
->>>>>>> dev-khang
 
 const SELECT_FIELD = '_id name slug desc video overSpecs origin category brand tags views rate variants quantity warrantyPeriod isHide createdAt updatedAt';
 
@@ -174,10 +171,6 @@ const updateProductVariant = async(productId, sku, variantData) =>{
     }
     return product.save();
 } 
-<<<<<<< HEAD
-
-=======
->>>>>>> dev-khang
 
 async function update(id,data){
     return productModel.findByIdAndUpdate(id, data, {new:true});
