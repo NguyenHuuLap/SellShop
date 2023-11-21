@@ -17,6 +17,7 @@ const ProductDetail = () => {
     const { productSlug, variantSku } = useParams();
     const [product, setProduct] = React.useState();
     const [variant, setVariant] = React.useState();
+    const [imageList, setImageList] = React.useState();
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -32,18 +33,18 @@ const ProductDetail = () => {
                             }
                         }
 
-                    })
+                    });
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
 
         fetchData();
-    }, []);
+    }, [variantSku]);
 
     const [open, setOpen] = React.useState(false);
-
-    console.log(product);
+    console.log(product)
 
     return !product || !variant ? (<>Loading</>) : (
         <>
@@ -82,7 +83,7 @@ const ProductDetail = () => {
                             <ImageCarosel data={product.hightLightPics} />
                         </Grid>
                         <Grid item xs={12}>
-                            <OverSpec setOpen={setOpen} overSpecs={product.overSpecs}/>
+                            <OverSpec setOpen={setOpen} overSpecs={product.overSpecs} />
                         </Grid>
                     </Grid>
                 </Grid>
@@ -98,7 +99,7 @@ const ProductDetail = () => {
                                 </Typography>
                             </Grid>
                             <Grid item xs={12}>
-                                <VariantList data={product.variants} variant={variant}/>
+                                <VariantList data={product.variants} variant={variant} slug={product.slug} />
                             </Grid>
                             <Grid item>
 
@@ -126,7 +127,7 @@ const ProductDetail = () => {
                 </Grid>
 
             </Grid>
-            <DetailSpec open={open} setOpen={setOpen} detailSpecs={product.detailSpecs}/>
+            <DetailSpec open={open} setOpen={setOpen} detailSpecs={product.detailSpecs} />
         </>
     );
 }

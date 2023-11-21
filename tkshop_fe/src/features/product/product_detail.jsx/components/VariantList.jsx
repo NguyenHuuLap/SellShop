@@ -5,9 +5,10 @@ import 'swiper/css/pagination';
 import { FreeMode, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from "swiper/react";
 import NumberFormat from "../../../../utils/NumberFormat";
+import { Link, useNavigate } from "react-router-dom";
 
 
-const VariantList = ({ data, variant }) => {
+const VariantList = ({ data, variant, slug }) => {
 
     return !data || !variant ? (<>Loading</>) : (
 
@@ -23,30 +24,32 @@ const VariantList = ({ data, variant }) => {
                 data.map((item, index) => {
                     return (
                         <SwiperSlide key={index}>
+                            <Link to={`/product-detail/${slug}/${item.sku}`}>
+                                <Button sx={{ width: "100%" }}>
 
-                            <Button sx={{ width: "100%" }}>
+                                    <Card
+                                        sx={variant.sku === item.sku ?
+                                            { border: "2px #1565c0 solid", borderRadius: "10px", width: "100%", py: 1, px: 0.5 } :
+                                            { border: "2px #f8f9fa solid", borderRadius: "10px", width: "100%", py: 1, px: 0.5 }} >
+                                        <CardMedia
+                                            component="img"
+                                            width="100%"
+                                            image={item.thumbnail}
+                                            alt="Paella dish"
+                                            sx={{ px: 3 }}
+                                        />
+                                        <CardContent sx={{ paddingY: "5px !important" }}>
+                                            <Typography variant="body2" fontWeight={700}>
+                                                {item.variantName}
+                                            </Typography>
+                                            <Typography variant="body2" sx={{ textAlign: "center" }}>
+                                                <NumberFormat number={item.price} />₫
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
 
-                                <Card
-                                    sx={variant.sku === item.sku ? 
-                                        { border: "2px #1565c0 solid", borderRadius: "10px", width: "100%", py: 1, px: 0.5 } :
-                                        { border: "2px #f8f9fa solid", borderRadius: "10px", width: "100%", py: 1, px: 0.5 }} >
-                                    <CardMedia
-                                        component="img"
-                                        width="100%"
-                                        image={item.thumbnail}
-                                        alt="Paella dish"
-                                        sx={{px: 3}}
-                                    />
-                                    <CardContent sx={{ paddingY: "5px !important" }}>
-                                        <Typography variant="body2" fontWeight={700}>
-                                            {item.variantName}
-                                        </Typography>
-                                        <Typography variant="body2" sx={{textAlign: "center"}}>
-                                            <NumberFormat number={item.price} />₫
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            </Button>
+                                </Button>
+                            </Link>
                         </SwiperSlide>
                     );
                 })

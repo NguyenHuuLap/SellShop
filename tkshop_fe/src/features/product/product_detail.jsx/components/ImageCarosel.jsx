@@ -54,7 +54,7 @@ export default function ImageCarosel({ data }) {
                                     direction="column"
                                     alignItems="center"
                                     justifyContent="center"
-                                    sx={{ width: "100%" }}
+                                    sx={{ width: "100%", my: 3 }}
                                 >
                                     <img style={{ width: '50%', minWidth: "300px", height: "100%", objectFit: "cover" }} src={item} />
 
