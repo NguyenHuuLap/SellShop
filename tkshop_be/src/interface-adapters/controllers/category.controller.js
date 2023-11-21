@@ -30,7 +30,7 @@ export const getOne = async (req, res, next) => {
 
 export const add = async (req, res, next) => {
     try {
-        const newCategory = await categoryService.add(req.body, req.user.id);
+        const newCategory = await categoryService.add(req.body, '6549ef2adad4643cc48f747a');
         res.json(newCategory);
     } catch (err) {
         res.json({

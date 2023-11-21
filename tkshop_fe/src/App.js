@@ -7,6 +7,8 @@ import ForgotPassword from './features/auth/forgot_password/presentation/ForgotP
 import Profile from './features/profile/presentation/Profile';
 import Home from './components/home/Home';
 import BlockMenu from './features/profile/components/BlockMenu';
+import HomeProfile from './features/profile/components/HomeProfile.js';
+import Discountt from './features/discount/presentation/Discount.js';
 
 const theme = createTheme({
   typography: {
@@ -29,11 +31,8 @@ function App() {
   return (
     <ThemeProvider theme={theme} >
       <Header/>
-      <Profile/>
+      <Home/>
     </ThemeProvider>
-
-    
-
   );
 }
 
