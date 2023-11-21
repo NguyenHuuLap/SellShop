@@ -31,3 +31,4 @@ discountSchema.plugin(slugGenerator);
 
 const discountModel = mongoose.model('Discount', discountSchema);
 export default discountModel;
+
