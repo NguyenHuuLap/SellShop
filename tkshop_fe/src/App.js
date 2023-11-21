@@ -11,6 +11,8 @@ import ProductDetail from './features/product/product_detail.jsx/presentation/Pr
 import { StyledEngineProvider } from '@mui/material';
 import Search from './features/search/presentation/Search';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Provider } from 'react-redux';
+import store from './stores/index.js';
 
 const theme = createTheme({
   typography: {
@@ -37,7 +39,8 @@ const theme = createTheme({
 function App() {
   return (
 
-    <ThemeProvider theme={theme} >
+    <Provider store={store}>
+      <ThemeProvider theme={theme} >
       <CssBaseline>
         <StyledEngineProvider injectFirst>
           <Header />
@@ -46,6 +49,7 @@ function App() {
               <Route path="/" name="Home" Component={Home} />
               <Route path="/search" name="Search" element={<Search />} />
               <Route path="/product-detail/:productSlug/:variantSku" name="Product Detail" Component={ProductDetail} />
+              <Route path="/login" name='Login' Component={Login}/>
               {/* </Route>
             <Route exact path="/search">
               <Search />
@@ -58,6 +62,7 @@ function App() {
         </StyledEngineProvider>
       </CssBaseline>
     </ThemeProvider>
+    </Provider>
 
 
 

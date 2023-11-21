@@ -22,7 +22,7 @@ export default function Comment() {
 
     return (
         <Box sx={{ display: "flex", mb: 2 }}>
-            <Avatar alt="Nguyễn Hưng Khang" src="https://scontent.fsgn2-5.fna.fbcdn.net/v/t39.30808-6/366843633_1748170288984803_5730509656188261732_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeE8kNbARfLgU1vG6UBGykRvNx2DJFSMe5A3HYMkVIx7kBfYih2jLqELdfuKFDvDczKimMaYBPiTxR6tigSJjPuv&_nc_ohc=vydwcbPIsEMAX_9LUVM&_nc_ht=scontent.fsgn2-5.fna&oh=00_AfBGLD0m-847VHQpneQFF1PmNs-Sq-THdj9RLcWdWBTJsA&oe=655D3BF5" />
+            <Avatar alt="Nguyễn Hưng Khang" src="https://lh3.googleusercontent.com/a/ACg8ocLBquAasYkVKjj4S-n7L96PGgPhlknagAG7hn1hEM_P=s96-c?fbclid=IwAR3x61Qg6IhcYnwS6NFfwXbJggri5VU8tsf0NqSdk78phv22RU9wcbN-Hts" />
             <CommentBox>
 
                 <Typography variant='body1' fontWeight={700} sx={{ mb: 0.5 }}>

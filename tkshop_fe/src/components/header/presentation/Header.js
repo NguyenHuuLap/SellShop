@@ -7,16 +7,35 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { ShoppingCart, AccountCircle} from '@mui/icons-material';
 import SearchButton from '../components/Search';
 import { alpha } from '@mui/system';
+import { useSelector } from 'react-redux';
+import { async } from 'q';
+import axios from 'axios';
 
 
 
 const Header = () => {
+  const [username, setUsername] = React.useState('');
+  const token = localStorage.getItem('token');
 
-
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3030/user/', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUsername(response.data.firstname);
+      } catch (err) {
+        console.log('Err: ', err);
+      }
+    };
+    fetchData();
+  }, [token]);
   return (
       <AppBar position="static" sx={{ backgroundColor: '#1976d2'}}>
         <Container>
-          <Toolbar sx={{width: '1145px'}}>
+          <Toolbar sx={{width: '1200px'}}>
             {/* <Typography
               variant="h6"
               noWrap
@@ -60,7 +79,7 @@ const Header = () => {
             <center>
               <Button sx={{color:"inherit", textTransform: 'none'}}>
                 <AccountCircle sx={{ fontSize: '24px',}} />
-                <span style={{ fontSize: '14px',}}>Đăng nhập</span>
+                <span style={{ fontSize: '14px',}}>{username ? username : 'Đăng nhập'}</span>
             </Button>
             </center>
           </Box>

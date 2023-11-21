@@ -6,7 +6,7 @@ import { passportConfig } from "../../data-access/passport.js";
 const router = Router();
 passportConfig(passport);
 
-router.get("/login", login);
+router.post("/login", login);
 
 router.get("/google", [
   // multerMiddleware.tempUpload.fields([{ name: 'avatar', maxCount: 1 }]),

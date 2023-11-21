@@ -5,7 +5,11 @@ import responseUtil from "../../utils/response.util.js";
 export const login = async (req, res, next) => {
     try {
         const result = await authService.authenticate(req.body.email, req.body.password, req.ipv4)
-        res.status(200).json(result);
+        if(result){
+            res.status(200).json(result.token);
+        }else{
+            res.status(500).json({message: `login fail`});
+        }
     }
     catch (err) {
         res.json({

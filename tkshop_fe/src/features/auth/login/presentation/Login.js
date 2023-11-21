@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate  } from 'react-router-dom';
 import {
   Container,
   Toolbar,
@@ -26,7 +27,11 @@ import {
 import imgLogin from "../../../../assets/images/download.png";
 import { alpha } from "@mui/system";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../../../actions/UserAction";
 const Login = () => {
+    const navigate  = useNavigate();
+
   const Root = styled("div")(({ theme }) => ({
     width: "650px",
     marginTop: "20px",
@@ -38,18 +43,17 @@ const Login = () => {
 
   const handleLogin = async() =>{
     try{
-        const response = await axios.get('http://localhost:3030/auth/login',{
-            username: username,
+        const response = await axios.post('http://localhost:3030/auth/login',{
+            email: username,
             password: password
         });
-        // Kiểm tra trạng thái của yêu cầu
+
     if (response.status === 200) {
-        // Yêu cầu thành công, xử lý dữ liệu
         const data = response.data;
-        console.log('login successful',data);
+        localStorage.setItem('token', data);
+        navigate('/')
         // ...
       } else {
-        // Yêu cầu không thành công, xử lý lỗi
         console.error('Login failed with status: ', response.status);
       }
     }catch(e){
