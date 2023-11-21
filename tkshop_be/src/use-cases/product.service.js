@@ -4,6 +4,7 @@ import categoryService from "./category.service.js";
 import brandService from "./brand.service.js";
 import StringUtils from "../utils/StringUtils.js";
 import ApiErrorUtils from "../utils/ApiErrorUtils.js";
+import stringformatUtils from "../utils/stringformat.utils.js";
 
 const SELECT_FIELD = '_id name slug desc video overSpecs origin category brand tags views rate variants quantity warrantyPeriod isHide createdAt updatedAt';
 
@@ -140,8 +141,13 @@ async function getAll(options = {}){
     return products
 }
 
-async function getOneProduct(id){
-    return productModel.findById(id);
+async function getOneProduct(identity){
+    let str;
+    if(stringformatUtils.isUUID(identity))
+        str = {_id: identity};
+    else
+        str = {slug: identity};
+    return await productModel.findOne(str);
 }
 
 async function add(data){
