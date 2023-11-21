@@ -6,7 +6,7 @@ import { isAdminOrStaff } from "../../interface-adapters/middleware/auth.middlew
 const router = Router();
 
 router.get("/", getAll);
-router.post("/", isAdminOrStaff, add);
+router.post("/", add);
 router.patch("/:categoryId", isAdminOrStaff,update);
 router.delete("/:categoryId", isAdminOrStaff, remove);
 

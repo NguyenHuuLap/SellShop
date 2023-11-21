@@ -21,7 +21,6 @@ const specificationDetailSchema = new Schema({
 
 const productVariantSchema = new Schema({
   sku: { type: String, trim: true, required: false }, //
-
   variantName: { type: String, trim: true }, //màu sắc
   slug: { type: String, slug: "variantName", unique: false },
 
