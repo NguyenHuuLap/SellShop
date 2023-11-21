@@ -3,23 +3,12 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20"
 import userService from "../use-cases/user.service.js"
 import encodedUtil from "../utils/encoded.util.js"
 import imageService from "../use-cases/image.service.js"
-<<<<<<< HEAD
-import dotenv from 'dotenv';
-
-dotenv.config()
-=======
->>>>>>> 276fedb36618be75a78887ddfeb7c28f6edaa805
 
 export const passportConfig = (passport) => {
     passport.use(
         new GoogleStrategy({
-<<<<<<< HEAD
-            clientID: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-=======
             clientID: '1025737882254-it45rivgdkgi15r1fdft8fo2utajb2ro.apps.googleusercontent.com',
             clientSecret: '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',
->>>>>>> 276fedb36618be75a78887ddfeb7c28f6edaa805
             callbackURL: 'http://localhost:3030/auth/google/callback',
         },
             async (accessToken, refreshToken, profile, done) => {
