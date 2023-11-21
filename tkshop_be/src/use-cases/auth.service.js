@@ -10,12 +10,12 @@ const authenticate = async (email, password) => {
     if(!encodedUtil.comparePassword(password, user.hashpassword)) throw new Error("Invalid Password")
     const token = jwtUtil.genToken({email: user.email, _id: user._id});
 
-    return{ user, token};
+    return{ token};
 }
 
 const authenticateWithGoogle = async (user) => {
     const token = jwtUtil.genToken({email: user.email, _id: user._id});
-    return{ user, token};
+    return{ token};
 }
 
 export default {

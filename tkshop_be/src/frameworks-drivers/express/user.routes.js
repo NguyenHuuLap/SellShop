@@ -4,11 +4,11 @@ import authMiddleware from "../../interface-adapters/middleware/auth.middleware.
 
 const router = Router();
 
-router.get("/", getAll);
+// router.get("/", getAll);
 router.post("/", add);
 router.get("/role", getByRole);
 router.patch("/:userId", authMiddleware.isAuthorized, update);
-router.get("/:identity", authMiddleware.isAuthorized, getOneByIdentity);
+router.get("/", authMiddleware.isAuthorized, getOneByIdentity);
 router.delete("/:identity", remove);
 
 export default router;

@@ -26,13 +26,11 @@ function authorized(role = null) {
   return [ 
     jwtAuth,
     async (req, res, next) => {
-
       const user = await userService.getOneByIdentity(req.user._id);
       if (!user) 
         return next(new ApplicationError(COMMON_ERROR.UNAUTHORIZED));
       if(role && !role.includes(user.role))
         return next(new ApplicationError(COMMON_ERROR.FORBIDDEN));
-      
       req.user.role = user.role;
       next();
     }
