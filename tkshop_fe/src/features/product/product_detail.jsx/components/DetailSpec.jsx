@@ -1,7 +1,7 @@
 import CloseIcon from '@mui/icons-material/Close';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Table, TableBody, TableCell, TableContainer, TableRow, Typography, useMediaQuery } from "@mui/material";
-import { styled, useTheme } from "@mui/styles";
+import { styled, useTheme } from "@mui/system";
 import * as React from "react";
 import "swiper/css";
 import 'swiper/css/pagination';

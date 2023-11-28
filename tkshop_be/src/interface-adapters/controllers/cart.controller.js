@@ -4,7 +4,8 @@ import cartService from "../../use-cases/cart.service.js"
 export const getCartItems = async(req,res, next) => {
     try {
         let items;
-        const userId=req.body.userId;
+        const userId=req.params.userId;
+        console.log(userId);
         const clientItems = req?.body?.items || [];
         if (userId) {
           items = await cartService.getCartItemsByUser({userId});
@@ -12,9 +13,9 @@ export const getCartItems = async(req,res, next) => {
           items = await cartService.getCartItemsFromData(clientItems);
         }
         if (items) {
-            res.status(200).json({message: 'Get cart items successfully !',data: items})
+            res.status(200).json({data: items})
         } else {
-            res.status(200).json({message: 'Your cart is empty !',data: items});
+            res.status(200).json({data: items});
         }
       } catch(err){
         res.json({
@@ -56,14 +57,15 @@ export const updateItemQuantity = async(req, res, next) =>{
 }
 export const removeItem = async(req, res, next) => {
     try{
-        const {userId, productId, sku} = req.body;
+        const {userId, productId, sku} = req.query;
+        console.log(req.query);
         const deleteResult = await cartService.removeItem(userId, productId, sku);
         if(deleteResult){
             res.status(200).json({message: 'delete item in cart successfully'});
         }
         else{
             res.status(500).json({message: 'has error delete item'});
-        }
+        }   
     }
     catch(err){
         next(err);

@@ -1,9 +1,9 @@
 import { Paper, Grid, Typography, Box, Card, CardContent, FormGroup, FormControlLabel, FormLabel, Checkbox, RadioGroup, Radio, ToggleButton, ToggleButtonGroup, Stack, FormControl, Slider, Divider, Input } from "@mui/material";
 import * as React from "react";
 import ProductGrid from "../components/ProductGrid";
-import { styled } from "@mui/styles";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { NumericFormat } from 'react-number-format';
+import { styled } from "@mui/system";
 
 const CustomToggleButton = styled(ToggleButton)({
     margin: "auto 10px",

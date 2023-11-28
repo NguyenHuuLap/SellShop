@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button, Card, CardContent, Stack, Grid, CardMedia, IconButton, Typography, Box, Paper, Rating, CardActions } from "@mui/material";
 import { FavoriteBorder } from "@mui/icons-material";
-import { styled } from "@mui/styles";
+import { styled } from "@mui/system";
 import { Link } from 'react-router-dom';
 import NumberFormat from "../../../utils/NumberFormat";
 

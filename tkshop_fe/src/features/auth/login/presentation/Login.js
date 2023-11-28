@@ -28,9 +28,11 @@ import imgLogin from "../../../../assets/images/download.png";
 import { alpha } from "@mui/system";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { loginSuccess } from "../../../../actions/UserAction";
+import { login } from "../../../../actions/UserAction.js";
+import Cookies from "js-cookie";
 const Login = () => {
-    const navigate  = useNavigate();
+  const navigate  = useNavigate();
+  const dispatch = useDispatch();
 
   const Root = styled("div")(({ theme }) => ({
     width: "650px",
@@ -50,9 +52,19 @@ const Login = () => {
 
     if (response.status === 200) {
         const data = response.data;
-        localStorage.setItem('token', data);
-        navigate('/')
-        // ...
+        Cookies.set('token', data.token, { expires: 7 });
+        try{
+          const responses = await axios.get('http://localhost:3030/user/', {
+            headers: {
+              Authorization: `Bearer ${data}`
+            }
+          })
+          await dispatch(login(responses.data));
+          navigate('/')
+        }
+        catch(err){
+          console.log('ERR: ', err)
+        }
       } else {
         console.error('Login failed with status: ', response.status);
       }

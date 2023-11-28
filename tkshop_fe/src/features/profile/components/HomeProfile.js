@@ -9,6 +9,7 @@ import img_youroffer from '../../../assets/images/gift-box.png';
 import img_yourpurchase from '../../../assets/images/Shipper2.webp';
 import img_yourranking from '../../../assets/images/crown.png';
 import MainSale from '../../../components/common/components/MainSale';
+import { format } from 'date-fns';
 
 const buttonData = [
     { img: img_youroffer, title: 'Ưu đãi của bạn', count: '0 Ưu đãi', backgroundColor: '#fef5f0', path: '/your-offers' },
@@ -39,12 +40,9 @@ const images = [
     },
   ];
 
-const HomeProfile = () => {
-
-    // const history = useHistory(); // Get history from react-router-dom
-
+const HomeProfile = ({user}) => {
+    const formattedDate = format(new Date(user.createdAt), 'dd/MM/yyyy');
     const handleButtonClick = (path) => {
-        // history.push(path); // Navigate to the specified path
         console.log(path);
     };
 
@@ -55,14 +53,14 @@ const HomeProfile = () => {
                     <Grid sx={{ '--Grid-borderWidth': '1px', border: 'var(--Grid-borderWidth) solid',borderColor: 'divider',
                         height: 'auto', width: '450px', borderRadius: '10px' }}>
                         <center>
-                            <Avatar src={imgLogin} sx={{ border: '2px solid #1976d2', width: 60, height: 60, marginTop: '8px' }} />
+                            <Avatar src={user.avatar} sx={{ border: '2px solid #1976d2', width: 60, height: 60, marginTop: '8px' }} />
                             <Typography variant='body1'>Xin chào</Typography>
-                            <Typography variant='h5' fontWeight='bold' color='#1976d2'>Nguyễn Hưng Khang</Typography>
+                            <Typography variant='h5' fontWeight='bold' color='#1976d2'>{user.firstname}</Typography>
                             <Grid container spacing={1} sx={{marginTop:'8px', marginBottom:'4px'}}>
                                 <Grid item xs={4}>
                                     <Typography>Ngày tham gia</Typography>
                                     <EventAvailable sx={{width:'60px', color:'#4287ED', height:'60px', marginTop:'4px'}}/>
-                                    <Typography>08/10/2023</Typography>
+                                    <Typography>{formattedDate}</Typography>
                                 </Grid>
                                 <Grid item xs={4}>
                                     <Typography>Hạng thành viên</Typography>

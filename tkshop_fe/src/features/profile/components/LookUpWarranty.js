@@ -42,7 +42,7 @@ const LookUpWarranty =() =>{
       };
     return(
         <>
-            <Grid container item sx={{position:'relative'}} spacing={3} direction='row' >
+            <Grid container item sx={{position:'relative'}} spacing={4} direction='row' width={950} >
                 <Grid item sx={{ position: "relativve", alignItems:'center' }} >
                     <Grid container item marginLeft={10} sx={{ position: 'relative', marginTop: '14px' }}>
                         {dataButtons.map((warrantyButtons, index) => (
