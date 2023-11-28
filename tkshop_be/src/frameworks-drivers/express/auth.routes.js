@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login, loginWithGoogle } from "../../interface-adapters/controllers/auth.controller.js";
+import { login, loginWithGoogle, register } from "../../interface-adapters/controllers/auth.controller.js";
 import passport from "passport"
 import { passportConfig } from "../../data-access/passport.js";
 
@@ -18,6 +18,8 @@ router.get(
   [passport.authenticate("google", { failureRedirect: '/', session: false })],
   loginWithGoogle
 )
+
+router.post("/register", register);
 
 router.get('/logout', (req, res) => {
   req.logout()

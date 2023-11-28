@@ -8,7 +8,7 @@ import 'swiper/css/navigation';
 import '../../../assets/css/swiper.css'
 import { Autoplay, Grid, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useTheme } from "@mui/styles";
+import { useTheme } from "@mui/system";
 import CustomCard from "./CustomCard";
 
 const MainProduct = ({title, gridRows, data}) => {

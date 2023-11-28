@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 
-const encodedPassword = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-const comparePassword = (password, hash) => bcrypt.compareSync(password, hash);
+const encodedPassword = async (password) =>  bcrypt.hashSync(password, 10);
+const comparePassword = async (password, hash) => bcrypt.compareSync(password, hash);
 
 const genRandomPassword = () => {
     const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';

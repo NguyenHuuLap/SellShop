@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import{AppBar, Box, Toolbar, Typography, Badge, Container, Button}from '@mui/material';
+import{AppBar, Box, Toolbar, Typography, Badge, Container, Button, Avatar}from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 
@@ -8,44 +8,36 @@ import { ShoppingCart, AccountCircle} from '@mui/icons-material';
 import SearchButton from '../components/Search';
 import { alpha } from '@mui/system';
 import { useSelector } from 'react-redux';
-import { async } from 'q';
+// import { async } from 'q';
+// import axios from 'axios';
+import { useNavigate } from 'react-router';
+import Cookies from 'js-cookie';
 import axios from 'axios';
 
 
 
-const Header = () => {
-  const [username, setUsername] = React.useState('');
-  const token = localStorage.getItem('token');
+const Header = () => {  
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const user = useSelector((state) => state.user.user);
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3030/user/', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUsername(response.data.firstname);
-      } catch (err) {
-        console.log('Err: ', err);
-      }
-    };
-    fetchData();
-  }, [token]);
+  const navigate  = useNavigate();
+  const handleOnClick = async() =>{
+    if(isAuthenticated){
+      navigate('/profile', { state: { user: user } })
+    }
+    else{
+      navigate('/login')
+    }
+  }
+
+  const handleClickCart = async()=>{
+    navigate('/cart');
+  }
+
   return (
       <AppBar position="static" sx={{ backgroundColor: '#1976d2'}}>
         <Container>
           <Toolbar sx={{width: '1200px'}}>
-            {/* <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-            >
-              MUI
-            </Typography> */}
-            
-
           <Typography variant="h6" component="div" sx={{ width: '150px'}}>
             Logo
           </Typography> 
@@ -64,7 +56,7 @@ const Header = () => {
           {/* Giỏ hàng */}
           <Box sx={{width: 'auto',backgroundColor: alpha('#FFFFFF', 0.1), borderRadius: '10px', marginLeft:'12px'}}>
             <center>
-            <Button sx={{color:"inherit", textTransform: 'none'}}>
+            <Button type='button' onClick={handleClickCart} sx={{color:"inherit", textTransform: 'none'}}>
               <Badge badgeContent={4} color="error" sx={{ "& .MuiBadge-badge": { fontSize: 9, height: 15, minWidth: 15 } }}>
                 <ShoppingCart />
               </Badge>
@@ -77,10 +69,10 @@ const Header = () => {
           {/* Accounts */}
           <Box sx={{width: 'auto',backgroundColor: alpha('#FFFFFF', 0.1), borderRadius: '10px', marginLeft:'12px',}}>
             <center>
-              <Button sx={{color:"inherit", textTransform: 'none'}}>
-                <AccountCircle sx={{ fontSize: '24px',}} />
-                <span style={{ fontSize: '14px',}}>{username ? username : 'Đăng nhập'}</span>
-            </Button>
+              <Button type='button' onClick={handleOnClick} sx={{color:"inherit", textTransform: 'none'}}>
+                <Avatar src={user?.avatar} sx={{height:'30px', width:'30px', marginRight:'5px'}} />
+                <span style={{ fontSize: '14px',}}  >{isAuthenticated ? user?.firstname : `Đăng nhập`}</span>
+              </Button>
             </center>
           </Box>
           

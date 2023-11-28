@@ -6,6 +6,7 @@ import categoryRoutes from './src/frameworks-drivers/express/category.routes.js'
 import brandRoutes from './src/frameworks-drivers/express/brand.routes.js';
 import productRoutes from './src/frameworks-drivers/express/product.routes.js';
 import discountRoutes from './src/frameworks-drivers/express/discount.routes.js';
+import cartRoutes from './src/frameworks-drivers/express/cart.router.js';
 import express from 'express';
 import connectDB from './src/data-access/mongodb_connector.js';
 import cors from 'cors';
@@ -25,6 +26,7 @@ app.use(cors());
 
 app.use('/user', userRoutes);
 app.use('/category', categoryRoutes);
+app.use('/cart', cartRoutes); 
 app.use('/auth', authRoutes);
 app.use('/order', orderRoutes);
 app.use('/brand', brandRoutes);

@@ -4,7 +4,7 @@ import { addItem, cleanCart, getCartItems, removeItem, updateItemQuantity } from
 
 const router = Router();
 
-router.get("/",getCartItems);
+router.get("/:userId",getCartItems);
 router.post("/add", addItem);
 router.patch("/", updateItemQuantity);
 router.delete("/", removeItem);

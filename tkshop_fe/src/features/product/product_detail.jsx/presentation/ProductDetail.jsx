@@ -17,7 +17,6 @@ const ProductDetail = () => {
     const { productSlug, variantSku } = useParams();
     const [product, setProduct] = React.useState();
     const [variant, setVariant] = React.useState();
-    const [imageList, setImageList] = React.useState();
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -27,7 +26,7 @@ const ProductDetail = () => {
                         setProduct(value.data);
                         for (const v of value.data.variants) {
                             if (v.sku === variantSku) {
-                                console.log(v.sku)
+                                // console.log(v.sku)
                                 setVariant(v);
                                 return;
                             }
@@ -44,7 +43,7 @@ const ProductDetail = () => {
     }, [variantSku]);
 
     const [open, setOpen] = React.useState(false);
-    console.log(product)
+    // console.log(product)
 
     return !product || !variant ? (<>Loading</>) : (
         <>
@@ -111,7 +110,7 @@ const ProductDetail = () => {
                                         <Divider />
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <BuyButton />
+                                        <BuyButton productId={product._id} sku={variant.sku} />
                                     </Grid>
 
                                 </Grid>

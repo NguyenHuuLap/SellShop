@@ -1,7 +1,7 @@
 import { faDesktop, faHardDrive, faLaptop, faMemory, faMicrochip, faCheck, faBattery } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Card, CardContent, Link, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import { styled } from "@mui/styles";
+import { styled } from "@mui/system";
 import * as React from "react";
 import "swiper/css";
 import 'swiper/css/pagination';

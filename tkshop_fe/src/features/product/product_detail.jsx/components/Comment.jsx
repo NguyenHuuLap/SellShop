@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { styled } from '@mui/styles';
+import { styled } from '@mui/system';
 import { Avatar, Link, Rating } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CircleIcon from '@mui/icons-material/Circle';

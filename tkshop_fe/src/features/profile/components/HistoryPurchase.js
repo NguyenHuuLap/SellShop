@@ -43,7 +43,7 @@ const OrderButtons = ({ title, buttonName, activeButton, path, onClick }) => (
 );
 
 
-const HistoryPurchase = ()=>{
+const HistoryPurchase = ({user})=>{
     const [activeButton, setActiveButton] = useState(null);
     const handleButtonClick = (buttonName, path) => {
         setActiveButton((prevButton) => (prevButton === buttonName ? null : buttonName));
@@ -55,14 +55,15 @@ const HistoryPurchase = ()=>{
             <Grid container item sx={{position:'relative'}} spacing={3} direction='row' >
                 <Grid item sx={{ position: "relativve", alignItems:'center' }} >
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Avatar src={imgLogo} sx={{ border: '2px solid #1976d2', width: 50, height: 50, marginTop: '8px' }} />
-                        <Typography sx={{marginLeft:'12px'}}>Nguyễn Hưng Khang</Typography>
+                        <Avatar src={user.avatar} sx={{ border: '2px solid #1976d2', width: 50, height: 50, marginTop: '8px' }} />
+                        <Typography sx={{marginLeft:'12px'}}>{user.firstname}</Typography>
                     </Box>
                     <Box sx={{
                         display: 'flex',
                             alignItems: 'center',
                             backgroundColor:'#ffff',
                             marginTop:'20px',
+                            marginRight: '20px',
                             borderRadius:'10px',
                             width: '900px',
                             height:'76px',
@@ -88,6 +89,7 @@ const HistoryPurchase = ()=>{
                             sx={{ width:"auto", 
                                 borderRadius:'10px', 
                                 marginTop:'14px',
+                                marginRight: '20px',
                                 display: 'flex', 
                                 alignItems: 'end',}}  
                             defaultValue={dayjs('2022-04-17')} />
@@ -104,7 +106,7 @@ const HistoryPurchase = ()=>{
                             />
                         ))}
                     </Grid>
-                    <Grid sx={{marginTop:'100px',marginBottom:'500px'}}>
+                    <Grid sx={{marginTop:'100px',marginBottom:'300px'}}>
                         <Box>
                         <img src={imgEmpty}  />
                         <Typography>Không có đơn hàng nào thỏa mãn</Typography>

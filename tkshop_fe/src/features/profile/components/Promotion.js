@@ -76,7 +76,7 @@ const Promotion = () => {
               />
             ))}
           </Box>
-          <Box sx={{ width: '900px'}}>
+          <Box sx={{ width: '930px', marginBottom: '500px'}}>
             <Grid container justifyContent="center" spacing={2}>
               {dataMemberButtons.map((tkMemberButtons, index) => (
                 <Grid item key={index}>

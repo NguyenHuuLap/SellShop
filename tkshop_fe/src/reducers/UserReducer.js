@@ -1,22 +1,22 @@
 
 const initialState ={
     isAuthenticated: false,
-    username: '',
+    user: null
 }
 
 const userReducer =(state = initialState, action) =>{   
     switch(action.type){
-        case 'LOGIN_SUCCESS':
+        case 'LOGIN':
             return {
                 ...state,
                 isAuthenticated: true,
-                username: action.payload.username,
+                user: action.payload
             };
             case 'LOGOUT':
                 return {
                   ...state,
                   isAuthenticated: false,
-                  user: null,
+                  user: null
                 };
         default:
             return state;

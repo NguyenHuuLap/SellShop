@@ -1,7 +1,7 @@
 import { Button, Card, CardContent, Divider, FormControl, FormControlLabel, FormLabel, Grid, LinearProgress, Pagination, Paper, Radio, RadioGroup, Rating, Stack, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/styles';
+import { styled } from '@mui/system';
 import * as React from 'react';
 import Comment from './Comment';
 import StarIcon from '@mui/icons-material/Star';
