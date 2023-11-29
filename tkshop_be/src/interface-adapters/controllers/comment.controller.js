@@ -19,6 +19,7 @@ export const getByProduct = async (req, res, next) => {
     try {
         
         let comments = await commentService.getByProduct(req.params.productId, req.body || null);
+        let comments = await commentService.getByProduct(req.params.productId, req.body || null, req.query.page , req.query.limit);
         if(comments)
             responseUtil.response(res, httpStatus.OK, `Sucess`, comments);
         else

@@ -6,6 +6,7 @@ import * as React from 'react';
 import Comment from './Comment';
 import StarIcon from '@mui/icons-material/Star';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import axios from 'axios';
 
 const CustomToggleButton = styled(ToggleButton)({
     margin: "auto 10px",
@@ -48,15 +49,58 @@ const Item = styled(Paper)({
     alignItems: "center"
 });
 
-export default function ProductDetailRating() {
+export default function ProductDetailRating({ comments, rating, productSlug }) {
+    const [typeComment, setTypeComment] = React.useState("all");
+    const [displayComment, setDisplayComment] = React.useState([]);
+    const [filterComment, setFilterComment] = React.useState(null);
 
-    const [alignment, setAlignment] = React.useState('web');
+    
+    React.useEffect(() => {
+        fetchData(1);
+    }, [])
 
-    const handleChange = (event, newAlignment) => {
-        setAlignment(newAlignment);
+    const fetchData = async (page) => {
+        try {
+            setDisplayComment([]);
+            setFilterComment([]);
+            const response = await axios.get(`http://localhost:3030/comment/product/${productSlug}?page=${page}&limit=10`)
+            const data = response.data.data;
+            setDisplayComment(data)
+            setFilterComment(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     };
 
-    return (
+    const changeFilterComment =  (newTypeComment) => {
+
+        if (newTypeComment === "all")
+            setFilterComment(displayComment);
+        else
+            setFilterComment(displayComment.filter(c => parseInt(c.star) === parseInt(newTypeComment)))
+    }
+
+    const handleChange = async (event, newTypeComment) => {
+        if (newTypeComment !== null) {
+            changeFilterComment(newTypeComment);
+            setTypeComment(newTypeComment);
+        }
+
+    };
+
+
+    const getNumsPerStar = (star) => {
+        let total = 0;
+        for (const c of comments)
+            if (parseInt(c.star) === star)
+                total++;
+        return total;
+    }
+
+
+    console.log(filterComment)
+
+    return !filterComment || !rating ? (<>Loading</>) : (
         <Box>
             <Card sx={{ mb: 2 }}>
                 <CardContent>
@@ -69,11 +113,11 @@ export default function ProductDetailRating() {
                                     Đánh giá trung bình
                                 </Typography>
                                 <Typography fontSize={42} fontWeight={700} sx={{ mb: 0.5, color: "#d40008" }}>
-                                    2.5/5
+                                    {rating === -1 ? 0 : rating}/5
                                 </Typography>
-                                <Rating size="small" name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
+                                <Rating size="small" name="half-rating-read" value={rating} precision={0.5} readOnly />
                                 <Typography>
-                                    95 đánh giá
+                                    {comments.length} đánh giá
                                 </Typography>
                             </Box>
                         </Item>
@@ -85,9 +129,9 @@ export default function ProductDetailRating() {
                                         5
                                     </Typography>
                                     <StarIcon fontSize='small' sx={{ color: "#faaf00", mr: 1 }} />
-                                    <BorderLinearProgress variant="determinate" sx={{ width: "60%" }} value={50} />
+                                    <BorderLinearProgress variant="determinate" sx={{ width: "60%" }} value={getNumsPerStar(5)} />
                                     <Typography sx={{ ml: 1 }}>
-                                        20
+                                        {getNumsPerStar(5)}
                                     </Typography>
                                 </Box>
 
@@ -96,9 +140,9 @@ export default function ProductDetailRating() {
                                         4
                                     </Typography>
                                     <StarIcon fontSize='small' sx={{ color: "#faaf00", mr: 1 }} />
-                                    <BorderLinearProgress variant="determinate" sx={{ width: "60%" }} value={40} />
+                                    <BorderLinearProgress variant="determinate" sx={{ width: "60%" }} value={getNumsPerStar(4)} />
                                     <Typography sx={{ ml: 1 }}>
-                                        20
+                                        {getNumsPerStar(4)}
                                     </Typography>
                                 </Box>
 
@@ -107,9 +151,9 @@ export default function ProductDetailRating() {
                                         3
                                     </Typography>
                                     <StarIcon fontSize='small' sx={{ color: "#faaf00", mr: 1 }} />
-                                    <BorderLinearProgress variant="determinate" sx={{ width: "60%" }} value={30} />
+                                    <BorderLinearProgress variant="determinate" sx={{ width: "60%" }} value={getNumsPerStar(3)} />
                                     <Typography sx={{ ml: 1 }}>
-                                        20
+                                        {getNumsPerStar(3)}
                                     </Typography>
                                 </Box>
 
@@ -118,9 +162,9 @@ export default function ProductDetailRating() {
                                         2
                                     </Typography>
                                     <StarIcon fontSize='small' sx={{ color: "#faaf00", mr: 1 }} />
-                                    <BorderLinearProgress variant="determinate" sx={{ width: "60%" }} value={20} />
+                                    <BorderLinearProgress variant="determinate" sx={{ width: "60%" }} value={getNumsPerStar(2)} />
                                     <Typography sx={{ ml: 1 }}>
-                                        20
+                                        {getNumsPerStar(2)}
                                     </Typography>
                                 </Box>
 
@@ -129,9 +173,9 @@ export default function ProductDetailRating() {
                                         1
                                     </Typography>
                                     <StarIcon fontSize='small' sx={{ color: "#faaf00", mr: 1 }} />
-                                    <BorderLinearProgress variant="determinate" sx={{ width: "60%" }} value={10} />
+                                    <BorderLinearProgress variant="determinate" sx={{ width: "60%" }} value={getNumsPerStar(1)} />
                                     <Typography sx={{ ml: 1 }}>
-                                        20
+                                        {getNumsPerStar(1)}
                                     </Typography>
                                 </Box>
                             </Box>
@@ -149,26 +193,33 @@ export default function ProductDetailRating() {
                         </Typography>
                         <ToggleButtonGroup
                             color='primary'
-                            value={alignment}
+                            value={typeComment}
                             exclusive
                             onChange={handleChange}
                         >
-                            <CustomToggleButton value="all">{alignment === "all" ? <CheckCircleIcon sx={{fontSize: 15, mr: 0.5}}/> : ""}Tất cả</CustomToggleButton>
-                            <CustomToggleButton value="5">{alignment === "5" ? <CheckCircleIcon sx={{fontSize: 15, mr: 0.5}}/> : ""}5 Sao</CustomToggleButton>
-                            <CustomToggleButton value="4">{alignment === "4" ? <CheckCircleIcon sx={{fontSize: 15, mr: 0.5}}/> : ""}4 Sao</CustomToggleButton>
-                            <CustomToggleButton value="3">{alignment === "3" ? <CheckCircleIcon sx={{fontSize: 15, mr: 0.5}}/> : ""}3 Sao</CustomToggleButton>
-                            <CustomToggleButton value="2">{alignment === "2" ? <CheckCircleIcon sx={{fontSize: 15, mr: 0.5}}/> : ""}2 Sao</CustomToggleButton>
-                            <CustomToggleButton value="1">{alignment === "1" ? <CheckCircleIcon sx={{fontSize: 15, mr: 0.5}}/> : ""}1 Sao</CustomToggleButton>
+                            <CustomToggleButton value="all">{typeComment === "all" ? <CheckCircleIcon sx={{ fontSize: 15, mr: 0.5 }} /> : ""}Tất cả</CustomToggleButton>
+                            <CustomToggleButton value="5">{typeComment === "5" ? <CheckCircleIcon sx={{ fontSize: 15, mr: 0.5 }} /> : ""}5 Sao</CustomToggleButton>
+                            <CustomToggleButton value="4">{typeComment === "4" ? <CheckCircleIcon sx={{ fontSize: 15, mr: 0.5 }} /> : ""}4 Sao</CustomToggleButton>
+                            <CustomToggleButton value="3">{typeComment === "3" ? <CheckCircleIcon sx={{ fontSize: 15, mr: 0.5 }} /> : ""}3 Sao</CustomToggleButton>
+                            <CustomToggleButton value="2">{typeComment === "2" ? <CheckCircleIcon sx={{ fontSize: 15, mr: 0.5 }} /> : ""}2 Sao</CustomToggleButton>
+                            <CustomToggleButton value="1">{typeComment === "1" ? <CheckCircleIcon sx={{ fontSize: 15, mr: 0.5 }} /> : ""}1 Sao</CustomToggleButton>
                         </ToggleButtonGroup>
 
                     </Box>
                     <Box>
-                        <Comment />
-                        <Comment />
-                        <Comment />
+                        {filterComment.length > 0 ?
+                            filterComment.map((item, index) => {
+                                console.log(item);
+                                return (
+                                    <Comment key={index} data={item} />
+                                );
+
+                            }) :
+                            <p>No Comment here</p>
+                        }
                     </Box>
                     <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-                        <Pagination count={10} variant="outlined" color="primary" />
+                        <Pagination count={Math.ceil(comments.length / 10)} variant="outlined" color="primary" />
                     </Box>
 
 

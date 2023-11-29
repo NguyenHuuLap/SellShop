@@ -16,7 +16,23 @@ export const formatProduct = (product, req) =>{
     return product
 }
 
+export const searchProduct = async (req, res, next) => {
+    try{
+        console.log(req.query)
+        let products = await productService.search(req.query);
+        res.json(products);
+    }
+    catch(err){
+        res.json({
+            message: err.message,
+            error:err
+        });
+        next(err);
+    }
+}
+
 export const getFullAll =async(req, res, next)=>{
+    console.log(123);
     try{
         let products = await productService.getFullAll();
         res.json(products);

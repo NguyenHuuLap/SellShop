@@ -12,6 +12,8 @@ const getIdentity = async (identity) => {
         return {email: identity}
     else if(stringformatUtils.isPhone(identity))
         return {phone: identity}
+    else 
+    throw new ApplicationError(COMMON_ERROR.BAD_REQUEST);
 }
 
 const getAll = async () => {

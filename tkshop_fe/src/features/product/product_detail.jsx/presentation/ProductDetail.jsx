@@ -17,6 +17,12 @@ const ProductDetail = () => {
     const { productSlug, variantSku } = useParams();
     const [product, setProduct] = React.useState();
     const [variant, setVariant] = React.useState();
+<<<<<<< HEAD
+=======
+    const [comments, setComment] = React.useState([]);
+    const [rating, setRating] = React.useState(0);
+    const [imageList, setImageList] = React.useState();
+>>>>>>> dev-khang
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -28,24 +34,43 @@ const ProductDetail = () => {
                             if (v.sku === variantSku) {
                                 // console.log(v.sku)
                                 setVariant(v);
-                                return;
+                                break;
                             }
                         }
 
                     });
+                setComment([]);
+                await axios.get(`http://localhost:3030/comment/product/${productSlug}`)
+                    .then(value => {
+                        let sum = 0;
+                        let count = 0;
+                        value.data.data.forEach(item => {
+                            setComment(comments => [item, ...comments]);
+                            sum += parseInt(item.star);
+                            count++;
+
+                        })
+                        if (count === 0)
+                            setRating(-1);
+                        else
+                            setRating(sum / count);
+                    })
 
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
-
         fetchData();
+        console.log(!rating)
     }, [variantSku]);
-
     const [open, setOpen] = React.useState(false);
+<<<<<<< HEAD
     // console.log(product)
+=======
+>>>>>>> dev-khang
 
-    return !product || !variant ? (<>Loading</>) : (
+
+    return !product || !variant || !comments || !rating ? (<>Loading</>) : (
         <>
             <Grid container spacing={3}
                 sx={{
@@ -66,8 +91,8 @@ const ProductDetail = () => {
                                 display: 'flex',
                                 justifyContent: 'flex-end',
                             }}>
-                                <Rating name="half-rating-read" value={product.rating} precision={0.5} readOnly />
-                                <Link href="#">95 danh gia</Link>
+                                <Rating name="half-rating-read" value={rating} precision={0.5} readOnly />
+                                <Link href="#">{comments.length} danh gia</Link>
                             </Box>
                         </Grid>
                     </Grid>
@@ -119,7 +144,7 @@ const ProductDetail = () => {
                     </Card>
                 </Grid>
                 <Grid item xs={12}>
-                    <DescriptionAndRating desc={product.desc} rating={product.rating} productId={product._id} />
+                    <DescriptionAndRating desc={product.desc} rating={rating} comments={comments} productSlug={productSlug} />
                 </Grid>
                 <Grid item xs={12}>
                     {/* <MainProduct title="SẢN PHẨM LIÊN QUAN" gridRows={1}/> */}

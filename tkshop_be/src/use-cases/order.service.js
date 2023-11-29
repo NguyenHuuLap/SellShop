@@ -155,8 +155,6 @@ const update = async (orderId, data, userId) => {
     if (data.status === order.status)
         throw new Error(`Order has been ${(data.status).toLowerCase()}`);
 
-    console.log(data);
-
     return orderModel.findByIdAndUpdate(orderId, data, { new: true }).lean().exec();
 }
 

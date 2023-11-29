@@ -11,9 +11,13 @@ import ProductDetail from './features/product/product_detail.jsx/presentation/Pr
 import { StyledEngineProvider } from '@mui/material';
 import Search from './features/search/presentation/Search';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+<<<<<<< HEAD
 import { Provider } from 'react-redux';
 import store from './stores/index.js';
 import Cart from './features/cart/presentation/Cart.js';
+=======
+import Payment from './features/payment/presentations/Payment';
+>>>>>>> dev-khang
 
 const theme = createTheme({
   typography: {
@@ -49,10 +53,15 @@ function App() {
             <Routes>
               <Route path="/" name="Home" Component={Home} />
               <Route path="/search" name="Search" element={<Search />} />
+              <Route path="/search/:categorySlug" name="Search" Component={Search} />
               <Route path="/product-detail/:productSlug/:variantSku" name="Product Detail" Component={ProductDetail} />
+<<<<<<< HEAD
               <Route path="/login" name='Login' Component={Login}/>
               <Route path="/profile" name='Profile' Component={Profile}/>
               <Route path='/cart' name='Cart' Component={Cart}/>
+=======
+              <Route path="/cart/payment-info" name="Payment Info" Component={Payment} />
+>>>>>>> dev-khang
               {/* </Route>
             <Route exact path="/search">
               <Search />

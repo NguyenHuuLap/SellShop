@@ -41,14 +41,14 @@ function a11yProps(index) {
     };
 }
 
-export default function DescriptionAndRating({desc, rating, productId}) {
+export default function DescriptionAndRating({desc, rating, comments, productSlug}) {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
-    return !desc || !productId ? (<>Loading</>) : (
+    return !desc || !rating || !comments ? (<>Loading</>) : (
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -64,7 +64,7 @@ export default function DescriptionAndRating({desc, rating, productId}) {
                 </Card>
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-                <ProductDetailRating />
+                <ProductDetailRating comments={comments} rating={rating} productSlug={productSlug}/>
             </CustomTabPanel>
         </Box>
     );
