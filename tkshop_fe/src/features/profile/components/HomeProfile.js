@@ -8,12 +8,8 @@ import imgLogin from '../../../assets/images/img_logo_100px.png';
 import img_youroffer from '../../../assets/images/gift-box.png';
 import img_yourpurchase from '../../../assets/images/Shipper2.webp';
 import img_yourranking from '../../../assets/images/crown.png';
-<<<<<<< HEAD
 import MainSale from '../../../components/common/components/MainSale';
 import { format } from 'date-fns';
-=======
-// import MainSale from '../../../components/home/MainSale';
->>>>>>> dev-khang
 
 const buttonData = [
     { img: img_youroffer, title: 'Ưu đãi của bạn', count: '0 Ưu đãi', backgroundColor: '#fef5f0', path: '/your-offers' },

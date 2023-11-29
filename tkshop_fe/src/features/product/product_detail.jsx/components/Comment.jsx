@@ -4,13 +4,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-<<<<<<< HEAD
-import { styled } from '@mui/system';
-import { Avatar, Link, Rating } from '@mui/material';
-=======
 import { styled } from '@mui/styles';
 import { Avatar, Button, Link, Rating } from '@mui/material';
->>>>>>> dev-khang
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CircleIcon from '@mui/icons-material/Circle';
 
@@ -23,20 +18,12 @@ const CommentBox = styled(Box)({
     width: "100%"
 })
 
-export default function Comment() {
 export default function Comment({ data }) {
     const [showReplies, setShowReplies] = React.useState(false);
 
-<<<<<<< HEAD
-    return (
-        <Box sx={{ display: "flex", mb: 2 }}>
-            <Avatar alt="Nguyễn Hưng Khang" src="https://lh3.googleusercontent.com/a/ACg8ocLBquAasYkVKjj4S-n7L96PGgPhlknagAG7hn1hEM_P=s96-c?fbclid=IwAR3x61Qg6IhcYnwS6NFfwXbJggri5VU8tsf0NqSdk78phv22RU9wcbN-Hts" />
-            <CommentBox>
-=======
     const handleClick = () => {
         setShowReplies(true);
     };
->>>>>>> dev-khang
 
     return !data ? (<>Loading</>) : (
         <>

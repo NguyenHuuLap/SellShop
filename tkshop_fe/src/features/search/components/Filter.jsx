@@ -3,12 +3,8 @@ import * as React from "react";
 import ProductGrid from "../components/ProductGrid";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { NumericFormat } from 'react-number-format';
-<<<<<<< HEAD
-import { styled } from "@mui/system";
-=======
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import SelectBox from "./SelectBox";
->>>>>>> dev-khang
 
 const testList = [
     { checked: false, name: "Dell", key: "dell" },

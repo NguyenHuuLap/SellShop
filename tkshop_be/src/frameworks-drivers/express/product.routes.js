@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { add, getFullAll, getOneProduct, remove, update, updateProductVariant } from "../../interface-adapters/controllers/product.controller.js";
 import { add, getFullAll, getOneProduct, remove, searchProduct, update, updateProductVariant } from "../../interface-adapters/controllers/product.controller.js";
 import { ConstructionOutlined } from "@mui/icons-material";
 

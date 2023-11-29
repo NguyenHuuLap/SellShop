@@ -17,12 +17,9 @@ const ProductDetail = () => {
     const { productSlug, variantSku } = useParams();
     const [product, setProduct] = React.useState();
     const [variant, setVariant] = React.useState();
-<<<<<<< HEAD
-=======
     const [comments, setComment] = React.useState([]);
     const [rating, setRating] = React.useState(0);
     const [imageList, setImageList] = React.useState();
->>>>>>> dev-khang
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -64,10 +61,7 @@ const ProductDetail = () => {
         console.log(!rating)
     }, [variantSku]);
     const [open, setOpen] = React.useState(false);
-<<<<<<< HEAD
     // console.log(product)
-=======
->>>>>>> dev-khang
 
 
     return !product || !variant || !comments || !rating ? (<>Loading</>) : (
