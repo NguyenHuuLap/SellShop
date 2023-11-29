@@ -2,7 +2,6 @@ import * as React from "react";
 import { Grid, Paper, MenuList, MenuItem, Button, Menu, Container } from "@mui/material";
 import CategoryList from "../../../components/common/components/CategoryList.js";
 import AdsFullWidth from "../../../components/common/components/AdsFullWidth.js";
-import MainSale from "../../../components/common/components/MainSale.js";
 import MainProduct from "../../../components/common/components/MainProduct.jsx";
 import axios from 'axios';
 
@@ -36,9 +35,10 @@ const Home = () => {
         fetchData();
     }, []);
 
+
     return !productList ? (
         <div>Loading</div>
-    ):(
+    ) : (
         <Grid container spacing={3}
             sx={{
                 maxWidth: "1200px",
@@ -53,7 +53,7 @@ const Home = () => {
                 <AdsFullWidth />
             </Grid>
             <Grid item xs={12}>
-                <MainSale />
+                {/* <MainSale /> */}
             </Grid>
 
             <Grid item xs={12}>

@@ -11,6 +11,7 @@ import ProductDetail from './features/product/product_detail.jsx/presentation/Pr
 import { StyledEngineProvider } from '@mui/material';
 import Search from './features/search/presentation/Search';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Payment from './features/payment/presentations/Payment';
 
 const theme = createTheme({
   typography: {
@@ -44,8 +45,9 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" name="Home" Component={Home} />
-              <Route path="/search" name="Search" element={<Search />} />
+              <Route path="/search/:categorySlug" name="Search" Component={Search} />
               <Route path="/product-detail/:productSlug/:variantSku" name="Product Detail" Component={ProductDetail} />
+              <Route path="/cart/payment-info" name="Payment Info" Component={Payment} />
               {/* </Route>
             <Route exact path="/search">
               <Search />

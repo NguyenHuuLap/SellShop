@@ -2,31 +2,37 @@ import mongoose from "mongoose";
 import userModel from "../entities/user.entity.js";
 import commentModel from "../entities/comment.entity.js";
 import productModel from "../entities/product.entity.js";
+import stringformatUtils from "../utils/stringformat.utils.js";
 
-const getList = async (userId = null, productId = null, sort = { createdAt: -1 }, parentCommentId = null) => {
+const getList = async (userId = null, productId = null, sort = { createdAt: -1 }, parentCommentId = null, currentPage = null, limit = null) => {
     return await commentModel.find({
         ...(productId && { productId: productId }),
         ...(userId && { userId: userId }),
         ...{ parentCommentId: parentCommentId }
-    }).sort(sort).populate('replies').lean().exec();
+    }).sort(sort).populate('replies userId').skip(currentPage ? currentPage-1 : null).limit(limit).lean().exec();
 }
 
-const getAll = async (sort = null) => {
-    return await getList(null, null, sort, null);
+const getAll = async (sort = null, currentPage = null, limit = null) => {
+    return await getList(null, null, sort, null, currentPage, limit);
 }
 
-const getByProduct = async (productId, sort = null) => {
-    const product = await productModel.findById(productId).exec();
+const getByProduct = async (productId, sort = null, currentPage = null, limit = null) => {
+    let str;
+    if (stringformatUtils.isUUID(productId))
+        str = { _id: productId };
+    else
+        str = { slug: productId };
+    const product = await productModel.findOne(str).exec();
     if (!product)
         throw new Error("No product found");
-    return await getList(null, productId, sort, null);
+    return await getList(null, product._id, sort, null, currentPage, limit);
 }
 
-const getByUser = async (userId, sort) => {
+const getByUser = async (userId, sort = null, currentPage = null, limit = null) => {
     const user = await userModel.findById(userId).exec();
     if (!user)
         throw new Error("No user found");
-    return await getList(userId, null, sort, { $exists: true, $ne: null });
+    return await getList(userId, null, sort, { $exists: true, $ne: null }, currentPage, limit);
 }
 
 const getOne = async (commentId) => {

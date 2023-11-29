@@ -1,43 +1,46 @@
-import { Paper, Grid, Typography, Box, Card, CardContent, FormGroup, FormControlLabel, FormLabel, Checkbox, RadioGroup, Radio, ToggleButton, ToggleButtonGroup, Stack, FormControl, Slider, Divider, Input } from "@mui/material";
+import { FormHelperText, Paper, Grid, Typography, Box, Card, CardContent, FormGroup, FormControlLabel, FormLabel, Checkbox, RadioGroup, Radio, ToggleButton, ToggleButtonGroup, Stack, FormControl, Slider, Divider, Input, Button } from "@mui/material";
 import * as React from "react";
 import ProductGrid from "../components/ProductGrid";
 import { styled } from "@mui/styles";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { NumericFormat } from 'react-number-format';
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import SelectBox from "./SelectBox";
 
-const CustomToggleButton = styled(ToggleButton)({
-    margin: "auto 10px",
-    backgroundColor: "#f8f9fa",
-    color: "black",
-    border: "1px solid #e9ecef !important",
-    borderRadius: "10px !important",
-    fontWeight: 600,
-    padding: 7,
-    [`&.Mui-selected`]: {
-        backgroundColor: "#1976d2",
-        borderColor: "#1976d2",
-        color: "white",
-    },
-    [`&.Mui-selected:hover`]: {
-        backgroundColor: "#0a5cad",
-        borderColor: "#1976d2",
-        color: "white",
-    }
-});
+const testList = [
+    { checked: false, name: "Dell", key: "dell" },
+    { checked: false, name: "ASUS", key: "asus" },
+];
 
-function valuetext(value) {
-    return `${value}°C`;
-}
+const Filter = ({ setSearchUrl }) => {
+    const { categorySlug } = useParams();
+    const location = useLocation();
+    const [value, setValue] = React.useState(null);;
+    const [brandSearch, setBrandSearch] = React.useState("");
+    const navigate = useNavigate();
 
+    React.useEffect(() => {
 
-
-const Filter = () => {
-    const [value, setValue] = React.useState([0, 100000000]);
+        const initalPrice = () => {
+            const searchParams = new URLSearchParams(location.search);
+            const minPrice = searchParams.get("minPrice");
+            const maxPrice = searchParams.get("maxPrice");
+            setValue([minPrice, maxPrice]);
+            setSearchUrl(`http://localhost:3030/product/search?category=${categorySlug}&minPrice=${minPrice}&maxPrice=${maxPrice}&${brandSearch}`)
+        }
+        initalPrice()
+    }, [categorySlug])
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-    return (
+
+    const searchWithFilter = () => {
+        setSearchUrl(`http://localhost:3030/product/search?category=${categorySlug}&minPrice=${value[0]}&maxPrice=${value[1]}&${brandSearch}`)
+        navigate(`/search/${categorySlug}?minPrice=${value[0]}&maxPrice=${value[1]}&${brandSearch}`)
+    };
+
+    return !value ? (<>Loading</>) : (
         <Card>
             <CardContent>
                 <Grid container spacing={3}
@@ -48,40 +51,30 @@ const Filter = () => {
                     }}
                 >
                     <Grid item xs={12}>
-                        <Typography sx={{ fontSize: 16, fontWeight: 600, color: "black", mb: 1 }}>Loại sản phẩm</Typography>
-                        <FormControl>
-                            <RadioGroup>
-                                <Grid container>
-                                    <Grid item xs={12} lg={6}><FormControlLabel value="all" control={<Radio sx={{ py: 0.2, '& .MuiSvgIcon-root': { height: 17, width: 17, } }} />} label={<Typography sx={{ fontSize: 14 }}>Tất cả</Typography>} /></Grid>
-                                    <Grid item xs={12} lg={6}><FormControlLabel value="laptop" control={<Radio sx={{ py: 0.2, '& .MuiSvgIcon-root': { height: 17, width: 17, } }} />} label={<Typography sx={{ fontSize: 14 }}>Laptop</Typography>} /></Grid>
-                                    <Grid item xs={12} lg={6}><FormControlLabel value="loa" control={<Radio sx={{ py: 0.2, '& .MuiSvgIcon-root': { height: 17, width: 17, } }} />} label={<Typography sx={{ fontSize: 14 }}>Loa</Typography>} /></Grid>
-                                    <Grid item xs={12} lg={6}><FormControlLabel value="tai-nghe" control={<Radio sx={{ py: 0.2, '& .MuiSvgIcon-root': { height: 17, width: 17, } }} />} label={<Typography sx={{ fontSize: 14 }}>Tai nghe</Typography>} /></Grid>
-                                    <Grid item xs={12} lg={6}><FormControlLabel value="de-tan-nhiet" control={<Radio sx={{ py: 0.2, '& .MuiSvgIcon-root': { height: 17, width: 17, } }} />} label={<Typography sx={{ fontSize: 14 }}>Đế tản nhiệt</Typography>} /></Grid>
-                                    <Grid item xs={12} lg={6}><FormControlLabel value="chuot" control={<Radio sx={{ py: 0.2, '& .MuiSvgIcon-root': { height: 17, width: 17, } }} />} label={<Typography sx={{ fontSize: 14 }}>Chuột</Typography>} /></Grid>
-                                    <Grid item xs={12} lg={6}><FormControlLabel value="lot-chuot" control={<Radio sx={{ py: 0.2, '& .MuiSvgIcon-root': { height: 17, width: 17, } }} />} label={<Typography sx={{ fontSize: 14 }}>Lót chuột</Typography>} /></Grid>
-                                </Grid>
-                            </RadioGroup>
-                        </FormControl>
+                        <Button onClick={searchWithFilter} variant="contained" sx={{ width: "100%" }}>
+                            Tìm kiếm
+                        </Button>
                     </Grid>
-                    <Grid item xs={12}>
-                        <Divider />
-                    </Grid>
+
+
                     <Grid item xs={12}>
                         <Typography sx={{ fontSize: 16, fontWeight: 600, color: "black", mb: 1 }}>Khoảng giá</Typography>
                         <Box>
-                            <NumericFormat 
-                              value={value[0]}
-                              thousandSeparator=","
-                              endAdornment="VNĐ"
-                              prefix="Từ: "
-                              customInput={Input}
+                            <NumericFormat
+                                value={value[0]}
+                                thousandSeparator=","
+                                endAdornment="VNĐ"
+                                prefix="Từ: "
+                                customInput={Input}
+                                readOnly
                             />
-                            <NumericFormat 
-                              value={value[1]}
-                              thousandSeparator=","
-                              prefix="Đến: "
-                              endAdornment="VNĐ"
-                              customInput={Input}
+                            <NumericFormat
+                                value={value[1]}
+                                thousandSeparator=","
+                                prefix="Đến: "
+                                endAdornment="VNĐ"
+                                customInput={Input}
+                                readOnly
                             />
                         </Box>
                         <Box>
@@ -92,6 +85,12 @@ const Filter = () => {
                                 value={value}
                                 onChange={handleChange} />
                         </Box>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Divider />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <SelectBox setParams={setBrandSearch} title="Thương hiệu" searchText="brand" data={testList} />
                     </Grid>
                 </Grid >
             </CardContent>

@@ -8,7 +8,7 @@ import imgLogin from '../../../assets/images/img_logo_100px.png';
 import img_youroffer from '../../../assets/images/gift-box.png';
 import img_yourpurchase from '../../../assets/images/Shipper2.webp';
 import img_yourranking from '../../../assets/images/crown.png';
-import MainSale from '../../../components/home/MainSale';
+// import MainSale from '../../../components/home/MainSale';
 
 const buttonData = [
     { img: img_youroffer, title: 'Ưu đãi của bạn', count: '0 Ưu đãi', backgroundColor: '#fef5f0', path: '/your-offers' },
@@ -136,7 +136,7 @@ const HomeProfile = () => {
                 ))}
             </Grid>
             <Grid container item width={925} marginTop={2}>
-            <MainSale />
+            {/* <MainSale /> */}
             </Grid>
             <Typography sx={{ textAlign: 'left', fontWeight:'bold', marginTop:'14px', marginBottom:'100px' }}>Tin tức khuyến mãi</Typography>
 

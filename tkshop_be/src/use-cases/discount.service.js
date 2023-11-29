@@ -8,16 +8,13 @@ const getAllDiscount = async()=>{
 
 const addDiscount = async(data)=>{
     const code = await randomCode();
-    if(code){
-        const newDiscount = new discountModel({
-            _id: new mongoose.Types.ObjectId(),
-            code: code,
-            ...data
-        })
-        return newDiscount.save();
-    }else{
-        return null;
-    }
+
+    const newDiscount = new discountModel({
+        _id: new mongoose.Types.ObjectId(),
+        code: code,
+        ...data
+    })
+    return await newDiscount.save();
     
 }
 
@@ -31,16 +28,15 @@ const remove =  async(id) => {
 
 const randomCode = async()=>{
     const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    for(let i = 0; i<1000; i++){
+    let code;
+    do {
         let result = '';
         for(let j = 0; j<10; j++){
             result+= characters.charAt(Math.floor(Math.random() * characters.length));
         }
-        if(!(await isCheckCodeExits(result))){
-            return result;
-        }
-    }
-    return null
+        code = result;
+    } while (!(await isCheckCodeExits(result)))
+    return code;
 }
 const isCheckCodeExits = async(code)=>{
     const result = await discountModel.findOne({code: code}).exec();
