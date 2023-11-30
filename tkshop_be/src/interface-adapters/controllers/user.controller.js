@@ -154,9 +154,22 @@ export const getOneByIdentity = async (req, res, next) => {
         next(err); 
     }
 }
+export const getOneByOwner = async (req, res, next) => {
+    try {
+        const user = await userService.getOneByIdentity(req.user._id);
+        res.json(user);
+    } catch (err) { 
+        res.json({
+            message: err.message,
+            error: err
+          });
+        next(err); 
+    }
+}
 
 export const update = async (req, res, next) => {
     try {
+        console.log(req.params.userId)
         const updatedUser = await userService.update(req.params.userId, req.body);
         res.json(updatedUser);
     } catch (err) { 
