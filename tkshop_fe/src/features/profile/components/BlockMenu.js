@@ -1,143 +1,197 @@
-import React, { useState } from 'react';
-import { CardGiftcard,  GppGoodOutlined, Home, InventoryOutlined, Logout,  Person, } from "@mui/icons-material";
-import { Card, Grid, List, ListItemButton, ListItemText, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Typography } from "@mui/material";
+import React, { useState } from "react";
+import {
+  CardGiftcard,
+  GppGoodOutlined,
+  Home,
+  InventoryOutlined,
+  Logout,
+  Person,
+} from "@mui/icons-material";
+import {
+  Card,
+  Grid,
+  List,
+  ListItemButton,
+  ListItemText,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Typography,
+} from "@mui/material";
 
-import HomeProfile from './HomeProfile';
-import HistoryPurchase from './HistoryPurchase';
-import LookUpWarranty from './LookUpWarranty';
-import Promotion from './Promotion';
-import MyAccount from './MyAccount';
-import axios from 'axios';
-import { useNavigate } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../../actions/UserAction';
+import HomeProfile from "./HomeProfile";
+import HistoryPurchase from "./HistoryPurchase";
+import LookUpWarranty from "./LookUpWarranty";
+import Promotion from "./Promotion";
+import MyAccount from "./MyAccount";
+import axios from "axios";
+import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../../actions/UserAction";
+import Cookies from "js-cookie";
 
 const menuItems = [
-  { icon: Home, text: 'Trang chủ', buttonName: 'home' },
-  { icon: InventoryOutlined, text: 'Lịch sử mua hàng', buttonName: 'historypurchase' },
-  { icon: GppGoodOutlined, text: 'Tra cứu bảo hành', buttonName: 'protectionactivities' },
-  { icon: CardGiftcard, text: 'Ưu đãi của bạn', buttonName: 'youroffer' },
-  { icon: Person, text: 'Tài khoản của bạn', buttonName: 'youraccount' },
-  { icon: Logout, text: 'Đăng xuất', buttonName: 'logout' },
+  { icon: Home, text: "Trang chủ", buttonName: "home" },
+  {
+    icon: InventoryOutlined,
+    text: "Lịch sử mua hàng",
+    buttonName: "historypurchase",
+  },
+  {
+    icon: GppGoodOutlined,
+    text: "Tra cứu bảo hành",
+    buttonName: "protectionactivities",
+  },
+  { icon: CardGiftcard, text: "Ưu đãi của bạn", buttonName: "youroffer" },
+  { icon: Person, text: "Tài khoản của bạn", buttonName: "youraccount" },
+  { icon: Logout, text: "Đăng xuất", buttonName: "logout" },
 ];
 
-const MenuItem = ({ icon: Icon, text, buttonName, activeComponent, onClick }) => (
+const MenuItem = ({
+  icon: Icon,
+  text,
+  buttonName,
+  activeComponent,
+  onClick,
+}) => (
   <ListItemButton
     sx={{
       py: 0.5,
-      marginBottom: '14px',
-      borderRadius: '10px',
-      width:'240px',
-      backgroundColor: activeComponent === buttonName ? '#A2C7FF' : 'inherit',
-      border: activeComponent === buttonName ? '1px solid #4287ED' : '1px solid transparent',
+      marginBottom: "14px",
+      borderRadius: "10px",
+      width: "240px",
+      backgroundColor: activeComponent === buttonName ? "#A2C7FF" : "inherit",
+      border:
+        activeComponent === buttonName
+          ? "1px solid #4287ED"
+          : "1px solid transparent",
     }}
     onClick={() => onClick(buttonName)}
   >
     {Icon && <Icon sx={{ mx: 1 }} />}
-    <ListItemText primary={text} primaryTypographyProps={{ fontSize: '14px' }} />
+    <ListItemText
+      primary={text}
+      primaryTypographyProps={{ fontSize: "14px" }}
+    />
   </ListItemButton>
 );
 
-const BlockMenu = ({user}) => {
-
-  const isLogin = useSelector((state) =>  state.user.isAuthenticated);
-  const [activeComponent, setActiveComponent] = useState('home');
+const BlockMenu = () => {
+  const [activeComponent, setActiveComponent] = useState("home");
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
 
-  const handleLogout =async()=>{
-    try{
-      const response = await axios.get('http://localhost:3030/user/logout');
+  const handleLogout = async () => {
+    try {
+      const response = await axios.get("http://localhost:3030/auth/logout");
+      console.log(response.data);
       if (response.status === 200) {
-        localStorage.removeItem('token');
-        dispatch(logout)
-        navigate('/login',)
+        Cookies.remove("token");
+        dispatch(logout());
+        navigate("/login");
       } else {
-        console.error('Login failed with status: ', response.status);
+        console.error("Login failed with status: ", response.status);
       }
-    }catch(e){
-        console.error('Login failed: ',e);
+    } catch (e) {
+      console.error("Login failed: ", e);
     }
-  }
+  };
 
   const handleButtonClick = (buttonName) => {
-    if(buttonName === 'logout'){
+    if (buttonName === "logout") {
       setOpen(true);
     }
-      setActiveComponent(buttonName);
+    setActiveComponent(buttonName);
   };
   const handleClose = () => {
     setOpen(false);
   };
   const renderComponent = () => {
     switch (activeComponent) {
-      case 'home':
-        return <HomeProfile user={user} />;
-      case 'historypurchase':
-        return <HistoryPurchase user={user} />;
-      case 'protectionactivities':
-        return <LookUpWarranty user={user} />;
-      case 'youroffer':
-        return <Promotion user={user} />;
-      case 'youraccount':
-        return <MyAccount user={user} />;
-      case 'logout':
+      case "home":
+        return <HomeProfile />;
+      case "historypurchase":
+        return <HistoryPurchase />;
+      case "protectionactivities":
+        return <LookUpWarranty />;
+      case "youroffer":
+        return <Promotion />;
+      case "youraccount":
+        return <MyAccount />;
+      case "logout":
         // Xử lý đăng xuất
-        console.log('redering', logoutDialog);
+        console.log("redering", logoutDialog);
         return logoutDialog;
       default:
         return null;
     }
   };
-  
+
   const logoutDialog = (
-    <Dialog open={open} onClose={handleClose} sx={{marginBottom:'200px'}} >
-      <center><DialogTitle>Thông báo</DialogTitle></center>
-        <DialogContent>
-            Bạn có chắc chắn muốn đăng xuất không?
-        </DialogContent>
+    <Dialog open={open} onClose={handleClose} sx={{ marginBottom: "200px" }}>
+      <center>
+        <DialogTitle>Thông báo</DialogTitle>
+      </center>
+      <DialogContent>Bạn có chắc chắn muốn đăng xuất không?</DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} sx={{backgroundColor: '#e7e7e7', width:'170px'}} >
-          <Typography sx={{color:'black'}}>Không</Typography>
+        <Button
+          onClick={handleClose}
+          sx={{ backgroundColor: "#e7e7e7", width: "170px" }}
+        >
+          <Typography sx={{ color: "black" }}>Không</Typography>
         </Button>
-        <Button onClick={handleLogout} sx={{backgroundColor: '#1976d2', width:'170px'}}>
-        <Typography sx={{color:'white'}}>Đồng ý</Typography>
+        <Button
+          onClick={handleLogout}
+          sx={{ backgroundColor: "#1976d2", width: "170px" }}
+        >
+          <Typography sx={{ color: "white" }}>Đồng ý</Typography>
         </Button>
       </DialogActions>
     </Dialog>
-  )
+  );
 
   return (
     <>
-        <center>
-            <Grid container spacing={2}
-                sx={{
-                    display: "flex",
-                    margin:'auto',
-                }} direction="row">
-                <Grid item >
-                    <Card>
-                        <List>
-                            {menuItems.map((menuItem, index) => (
-                            <MenuItem
-                                key={index}
-                                icon={menuItem.icon}
-                                text={menuItem.text}
-                                buttonName={menuItem.buttonName}
-                                activeComponent={activeComponent}
-                                onClick={handleButtonClick}
-                            />
-                            ))}
-                        </List> 
-                    </Card>
-                </Grid>
-                <Grid sx={{
-                    backgroundColor:'#F5F5F5',}} item direction="row">
-                {renderComponent()}
-                </Grid>
-            </Grid>
-        </center>
+      <center>
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            display: "flex",
+            margin: "auto",
+          }}
+          direction="row"
+        >
+          <Grid item>
+            <Card>
+              <List>
+                {menuItems.map((menuItem, index) => (
+                  <MenuItem
+                    key={index}
+                    icon={menuItem.icon}
+                    text={menuItem.text}
+                    buttonName={menuItem.buttonName}
+                    activeComponent={activeComponent}
+                    onClick={handleButtonClick}
+                  />
+                ))}
+              </List>
+            </Card>
+          </Grid>
+          <Grid
+            sx={{
+              backgroundColor: "#F5F5F5",
+            }}
+            item
+            direction="row"
+          >
+            {renderComponent()}
+          </Grid>
+        </Grid>
+      </center>
     </>
   );
 };

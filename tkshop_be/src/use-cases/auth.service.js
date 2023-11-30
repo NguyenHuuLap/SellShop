@@ -8,10 +8,8 @@ import userService from "./user.service.js"
 const authenticate = async (email, password) => {
     const user = await userService.getOneByIdentity(email);
     if(!user)  throw new ApplicationError(COMMON_ERROR.RESOURCE_NOT_FOUND);
-   
     if(!(await encodedUtil.comparePassword(password, user.hashpassword))) throw new Error("Invalid Password")
     const token = jwtUtil.genToken({email: user.email, _id: user._id});
-
     return{ token};
 }
 

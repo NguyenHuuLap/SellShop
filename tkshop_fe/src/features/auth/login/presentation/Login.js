@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate  } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Toolbar,
@@ -20,7 +20,6 @@ import {
   Google,
   Visibility,
   VisibilityOff,
-  Key,
   Facebook,
 } from "@mui/icons-material";
 
@@ -30,9 +29,11 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { login } from "../../../../actions/UserAction.js";
 import Cookies from "js-cookie";
+import ShowSnackbar from "../../../../components/common/components/ShowSnackbar.js";
 const Login = () => {
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [showSnackbar, setShowSnackbar] = React.useState(false);
 
   const Root = styled("div")(({ theme }) => ({
     width: "650px",
@@ -43,35 +44,34 @@ const Login = () => {
     },
   }));
 
-  const handleLogin = async() =>{
-    try{
-        const response = await axios.post('http://localhost:3030/auth/login',{
-            email: username,
-            password: password
-        });
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post("http://localhost:3030/auth/login", {
+        email: username,
+        password: password,
+      });
 
-    if (response.status === 200) {
+      if (response.status === 200) {
         const data = response.data;
-        Cookies.set('token', data.token, { expires: 7 });
-        try{
-          const responses = await axios.get('http://localhost:3030/user/', {
+        Cookies.set("token", data, { expires: 7 });
+        try {
+          const responses = await axios.get("http://localhost:3030/user/", {
             headers: {
-              Authorization: `Bearer ${data}`
-            }
-          })
-          await dispatch(login(responses.data));
-          navigate('/')
+              Authorization: `Bearer ${data}`,
+            },
+          });
+          dispatch(login(responses.data));
+        } catch (error) {
+          // Xử lý lỗi ở đây
+          console.error("Lỗi khi lấy dữ liệu người dùng:", error);
         }
-        catch(err){
-          console.log('ERR: ', err)
-        }
-      } else {
-        console.error('Login failed with status: ', response.status);
+        setShowSnackbar(true);
+        navigate("/");
       }
-    }catch(e){
-        console.error('Login failed: ',e);
+    } catch (e) {
+      console.error("Login failed: ", e);
     }
-  }
+  };
 
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -101,7 +101,7 @@ const Login = () => {
               onChange={(e) => setUsername(e.target.value)}
             />
             <FormControl
-              sx={{ m: 1, width: "25ch", width: "650px", marginBottom: "15px" }}
+              sx={{ m: 1, width: "650px", marginBottom: "15px" }}
               variant="standard"
             >
               <InputLabel htmlFor="standard-adornment-password">
@@ -136,7 +136,9 @@ const Login = () => {
                 Quên mật khẩu?
               </Link>
             </Container>
-            <Button type="button" onClick={handleLogin} variant="contained">Đăng nhập</Button>
+            <Button type="button" onClick={handleLogin} variant="contained">
+              Đăng nhập
+            </Button>
             <Root>
               <Divider>Hoặc đăng nhập bằng</Divider>
             </Root>
@@ -203,6 +205,9 @@ const Login = () => {
           </Toolbar>
         </Container>
       </center>
+      {showSnackbar && (
+        <ShowSnackbar isOpen={true} snackbarMessage="Đăng nhập thành công"/>
+      )}
     </>
   );
 };
