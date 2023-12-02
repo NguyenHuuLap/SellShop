@@ -26,6 +26,7 @@ import AdsCarosel from "./AdsCarosel";
 import CustomMegaMenu from "./CustomMegaMenu";
 
 const CategoryList = () => {
+<<<<<<< HEAD
   return (
     <>
       <Grid container spacing={2}>
@@ -45,6 +46,23 @@ const CategoryList = () => {
       </Grid>
     </>
   );
+=======
+
+    return (
+        <>
+            <Grid container spacing={2}>
+                <Grid item xs={6} md={9}
+                    sx={{
+                        position: "relativve"
+                    }}
+                >
+                    <Carosel />
+                </Grid>
+
+            </Grid>
+        </>
+    );
+>>>>>>> dev-khang
 };
 
 export default CategoryList;

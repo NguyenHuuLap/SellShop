@@ -66,6 +66,7 @@ function App() {
 
   return (
     <Provider store={store}>
+<<<<<<< HEAD
       <ThemeProvider theme={theme}>
         <CssBaseline>
           <StyledEngineProvider injectFirst>
@@ -89,6 +90,23 @@ function App() {
                 <Route path="/cart" name="Cart" Component={Cart} />
                 {/* <Route path="/cart/payment-info" name="Payment Info" Component={Payment} /> */}
                 {/* </Route>
+=======
+      <ThemeProvider theme={theme} >
+      <CssBaseline>
+        <StyledEngineProvider injectFirst>
+          <BrowserRouter>
+          <Header />
+            <Routes>
+              <Route path="/" name="Home" Component={Home} />
+              {/* <Route path="/search" name="Search" element={<Search />} /> */}
+              <Route path="/search" name="Search" Component={Search} />
+              <Route path="/product-detail/:productSlug/:variantSku" name="Product Detail" Component={ProductDetail} />
+              <Route path="/login" name='Login' Component={Login}/>
+              <Route path="/profile" name='Profile' Component={Profile}/>
+              <Route path='/cart' name='Cart' Component={Cart}/>
+              {/* <Route path="/cart/payment-info" name="Payment Info" Component={Payment} /> */}
+              {/* </Route>
+>>>>>>> dev-khang
             <Route exact path="/search">
               <Search />
             </Route>

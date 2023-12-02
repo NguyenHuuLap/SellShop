@@ -19,7 +19,7 @@ export const formatProduct = (product, req) =>{
 export const searchProduct = async (req, res, next) => {
     try{
         console.log(req.query)
-        let products = await productService.search(req.query);
+        let products = await productService.searchWithFilter(req.query);
         res.json(products);
     }
     catch(err){
@@ -32,7 +32,6 @@ export const searchProduct = async (req, res, next) => {
 }
 
 export const getFullAll =async(req, res, next)=>{
-    console.log(123);
     try{
         let products = await productService.getFullAll();
         res.json(products);
@@ -45,6 +44,35 @@ export const getFullAll =async(req, res, next)=>{
         next(err);
     }
 }
+
+export const getNewestProduct =async(req, res, next)=>{
+    try{
+        let products = await productService.getNewestProduct();
+        res.json(products);
+    }
+    catch(err){
+        res.json({
+            message: err.message,
+            error:err
+        });
+        next(err);
+    }
+}
+
+export const getMostViewProduct =async(req, res, next)=>{
+    try{
+        let products = await productService.getMostViewProduct();
+        res.json(products);
+    }
+    catch(err){
+        res.json({
+            message: err.message,
+            error:err
+        });
+        next(err);
+    }
+}
+
 
 export const getOneProduct = async(req,res, next) =>{
     try{
@@ -101,6 +129,20 @@ export const update = async(req,res, next) => {
         next(err);
     }
 }
+
+export const visitProduct = async(req,res, next) => {
+    try{
+        const updateProduct = await productService.visitProduct(req.params.productId);
+        res.json(updateProduct);
+    }catch(err){
+        res.json({
+            message: err.message,
+            error: err
+        });
+        next(err);
+    }
+}
+
 export const remove = async(req, res, next) => {
     try{
         const removeProduct = await productService.remove(req.params.productId);
