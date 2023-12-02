@@ -22,88 +22,55 @@ import axios from "axios";
 import NumberFormat from "../../../../utils/NumberFormat";
 
 const ProductDetail = () => {
-<<<<<<< HEAD
   const { productSlug, variantSku } = useParams();
   const [product, setProduct] = React.useState();
   const [variant, setVariant] = React.useState();
+  const [comments, setComment] = React.useState([]);
+  const [rating, setRating] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
+  const [imageList, setImageList] = React.useState();
 
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        await axios
-          .get(`http://localhost:3030/product/${productSlug}`)
-          .then((value) => {
+        await axios.get(`http://localhost:3030/product/${productSlug}`)
+          .then(async value => {
+
+            const viewsUpdate = await axios.get(`http://localhost:3030/product/visit-product/${value.data._id}`)
             setProduct(value.data);
             for (const v of value.data.variants) {
               if (v.sku === variantSku) {
                 // console.log(v.sku)
                 setVariant(v);
-                return;
+                break;
               }
             }
+
           });
+        setComment([]);
+        await axios.get(`http://localhost:3030/comment/product/${productSlug}`)
+          .then(value => {
+            let sum = 0;
+            let count = 0;
+            value.data.data.forEach(item => {
+              setComment(comments => [item, ...comments]);
+              sum += parseInt(item.star);
+              count++;
+
+            })
+            if (count === 0)
+              setRating(-1);
+            else
+              setRating(sum / count);
+          })
+
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       }
     };
-=======
-    const { productSlug, variantSku } = useParams();
-    const [product, setProduct] = React.useState();
-    const [variant, setVariant] = React.useState();
-    const [comments, setComment] = React.useState([]);
-    const [rating, setRating] = React.useState(0);
-    const [open, setOpen] = React.useState(false);
-    const [imageList, setImageList] = React.useState();
-
-    React.useEffect(() => {
-        const fetchData = async () => {
-            try {
-                await axios.get(`http://localhost:3030/product/${productSlug}`)
-                    .then(async value => {
-                        
-                        const viewsUpdate = await axios.get(`http://localhost:3030/product/visit-product/${value.data._id}`)
-                        setProduct(value.data);
-                        for (const v of value.data.variants) {
-                            if (v.sku === variantSku) {
-                                // console.log(v.sku)
-                                setVariant(v);
-                                break;
-                            }
-                        }
-
-                    });
-                setComment([]);
-                await axios.get(`http://localhost:3030/comment/product/${productSlug}`)
-                    .then(value => {
-                        let sum = 0;
-                        let count = 0;
-                        value.data.data.forEach(item => {
-                            setComment(comments => [item, ...comments]);
-                            sum += parseInt(item.star);
-                            count++;
-
-                        })
-                        if (count === 0)
-                            setRating(-1);
-                        else
-                            setRating(sum / count);
-                    })
-
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-        fetchData();
-
-    }, [variantSku]);
-    
->>>>>>> dev-khang
-
     fetchData();
-  }, [variantSku]);
 
-  const [open, setOpen] = React.useState(false);
-  // console.log(product)
+  }, [variantSku]);
 
   return !product || !variant ? (
     <>Loading</>
@@ -157,10 +124,14 @@ const ProductDetail = () => {
               <ImageCarosel data={product.hightLightPics} />
             </Grid>
             <Grid item xs={12}>
-              <OverSpec setOpen={setOpen} overSpecs={product.overSpecs} />
+              <OverSpec
+                setOpen={setOpen}
+                overSpecs={product.overSpecs}
+              />
             </Grid>
           </Grid>
         </Grid>
+
         <Grid item xs={5}>
           <Card sx={{ p: 2 }}>
             <Grid container spacing={3}>
@@ -200,81 +171,11 @@ const ProductDetail = () => {
                     <Divider />
                   </Grid>
                   <Grid item xs={12}>
-                    <BuyButton productId={product._id} sku={variant.sku} />
+                    <BuyButton
+                      productId={product._id}
+                      sku={variant.sku}
+                    />
                   </Grid>
-                </Grid>
-                <Grid item xs={7}>
-                  <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                      <ImageCarosel data={product.hightLightPics} />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <OverSpec
-                        setOpen={setOpen}
-                        overSpecs={product.overSpecs}
-                      />
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid item xs={5}>
-                  <Card sx={{ p: 2 }}>
-                    <Grid container spacing={3}>
-                      <Grid
-                        item
-                        xs={12}
-                        sx={{ display: "flex", alignItems: "flex-end" }}
-                      >
-                        <Typography
-                          variant="h5"
-                          fontWeight={700}
-                          sx={{ color: "#E8171F" }}
-                        >
-                          <NumberFormat number={variant.price} />₫
-                        </Typography>
-                        <Typography
-                          variant="body1"
-                          fontWeight={600}
-                          sx={{ textDecoration: "line-through", marginLeft: 1 }}
-                        >
-                          <NumberFormat number={variant.marketPrice} />₫
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <VariantList
-                          data={product.variants}
-                          variant={variant}
-                          slug={product.slug}
-                        />
-                      </Grid>
-                      <Grid item>
-                        <Grid container spacing={3}>
-                          <Grid item xs={12}>
-                            <Discount />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <Divider />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <BuyButton
-                              productId={product._id}
-                              sku={variant.sku}
-                            />
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Card>
-                </Grid>
-                <Grid item xs={12}>
-                  <DescriptionAndRating
-                    desc={product.desc}
-                    rating={rating}
-                    comments={comments}
-                    productSlug={productSlug}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  {/* <MainProduct title="SẢN PHẨM LIÊN QUAN" gridRows={1}/> */}
                 </Grid>
               </Grid>
             </Grid>
@@ -283,14 +184,16 @@ const ProductDetail = () => {
         <Grid item xs={12}>
           <DescriptionAndRating
             desc={product.desc}
-            rating={product.rating}
-            productId={product._id}
+            rating={rating}
+            comments={comments}
+            productSlug={productSlug}
           />
         </Grid>
         <Grid item xs={12}>
           {/* <MainProduct title="SẢN PHẨM LIÊN QUAN" gridRows={1}/> */}
         </Grid>
-      </Grid>
+      </Grid >
+
       <DetailSpec
         open={open}
         setOpen={setOpen}

@@ -35,49 +35,24 @@ const TitleTypography = styled(Typography)({
   },
 });
 
-<<<<<<< HEAD
-const CustomCard = ({ data, sku }) => {
-  return !data ? (
-    <></>
-  ) : (
+const CustomCard = ({ data, variant }) => {
+
+  return !data ? (<></>) : (
     <Card>
       <CardMedia
         component="img"
         height="200px"
         image={data.specPicture}
-        sx={{ padding: "auto", pt: 3, objectFit: "contain" }}
+        sx={{ padding: 'auto', pt: 3, objectFit: "contain" }}
       />
       <CardContent sx={{ pb: 0, pt: 0.5 }}>
-        <Link
-          to={
-            `/product-detail/${data.slug ? data.slug : data._id}` +
-            `${sku ? "/" + sku : "/" + data.variants[0].sku}`
-          }
-        >
+        <Link to={`/product-detail/${data.slug ? data.slug : data._id}` + `${variant ? "/" + variant.sku : "/" + data.variants[0].sku}`}>
           <Box sx={{ overflow: "hidden" }} underline="none">
-            <TitleTypography variant="h6">{data.name}</TitleTypography>
+            <TitleTypography variant="h6">
+              {data.name}
+            </TitleTypography>
           </Box>
         </Link>
-=======
-const CustomCard = ({ data, variant }) => {
-
-    return !data ? (<></>) : (
-        <Card>
-            <CardMedia
-                component="img"
-                height="200px"
-                image={data.specPicture}
-                sx={{ padding: 'auto', pt: 3, objectFit: "contain" }}
-            />
-            <CardContent sx={{ pb: 0, pt: 0.5 }}>
-                <Link to={`/product-detail/${data.slug ? data.slug : data._id}`+`${variant ? "/" + variant.sku : "/" + data.variants[0].sku}`}>
-                    <Box sx={{ overflow: "hidden" }} underline="none">
-                        <TitleTypography variant="h6">
-                            {data.name}
-                        </TitleTypography>
-                    </Box>
-                </Link>
->>>>>>> dev-khang
 
         <Paper
           sx={{
@@ -90,147 +65,69 @@ const CustomCard = ({ data, variant }) => {
           }}
         >
           <Typography variant="body2" fontWeight={600}>
-            {sku ? "Variant" : "Tất cả các dòng"}
+            {variant ? variant.variantName : "Tất cả các dòng"}
           </Typography>
         </Paper>
 
-<<<<<<< HEAD
-        {sku ? (
-          <Stack mt={2} direction="row" spacing={1} sx={{ width: "100%" }}>
-            <Typography
-              variant="body1"
+        {variant ?
+          <Stack mt={2} direction="row" spacing={1} sx={{ width: "100%" }} >
+            <Typography variant="body1"
               sx={{
                 color: "red",
-                fontWeight: "bold",
+                fontWeight: 'bold'
               }}
             >
-              17.999.000₫
+              <NumberFormat number={variant.price} />₫
             </Typography>
-            <Typography
-              variant="body2"
+            <Typography variant="body2"
               sx={{
-                textDecoration: "line-through",
+                textDecoration: 'line-through',
                 pt: 0.5,
-                fontWeight: "bold",
+                fontWeight: 'bold'
               }}
             >
-              22.100.000₫
+              <NumberFormat number={variant.marketPrice} />₫
             </Typography>
           </Stack>
-        ) : (
+          :
           <Stack mt={2} direction="row" spacing={1} justifyContent="center">
-            <Typography
-              variant="body1"
+            <Typography variant="body1"
               sx={{
                 color: "#1976d2",
-                fontWeight: "bold",
+                fontWeight: 'bold'
               }}
             >
               <NumberFormat number={data.minPrice} />₫
             </Typography>
-            <Typography
-              variant="body1"
+            <Typography variant="body1"
               sx={{
                 color: "#1976d2",
-                fontWeight: "bold",
+                fontWeight: 'bold'
               }}
             >
               -
             </Typography>
-            <Typography
-              variant="body1"
+            <Typography variant="body1"
               sx={{
                 color: "#1976d2",
-                fontWeight: "bold",
+                fontWeight: 'bold'
               }}
             >
               <NumberFormat number={data.maxPrice} />₫
             </Typography>
           </Stack>
-        )}
-        <Rating readOnly value={data.rating} />
+
+
+        }
+        <Rating
+          readOnly
+          value={data.rating}
+        />
+
       </CardContent>
     </Card>
+
   );
-};
-
-export default CustomCard;
-=======
-                <Paper
-                    sx={{
-                        p: 1,
-                        boxShadow: 0,
-                        backgroundColor: '#F3F4F6',
-                        mt: 1,
-                        display: "flex",
-                        justifyContent: "center"
-                    }}
-                >
-                    <Typography variant="body2" fontWeight={600}>
-                        {variant ? variant.variantName : "Tất cả các dòng"}
-                    </Typography>
-                </Paper>
-
-                {variant ?
-                    <Stack mt={2} direction="row" spacing={1} sx={{ width: "100%" }} >
-                        <Typography variant="body1"
-                            sx={{
-                                color: "red",
-                                fontWeight: 'bold'
-                            }}
-                        >
-                             <NumberFormat number={variant.price} />₫
-                        </Typography>
-                        <Typography variant="body2"
-                            sx={{
-                                textDecoration: 'line-through',
-                                pt: 0.5,
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            <NumberFormat number={variant.marketPrice} />₫
-                        </Typography>
-                    </Stack>
-                    :
-                    <Stack mt={2} direction="row" spacing={1} justifyContent="center">
-                        <Typography variant="body1"
-                            sx={{
-                                color: "#1976d2",
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            <NumberFormat number={data.minPrice} />₫
-                        </Typography>
-                        <Typography variant="body1"
-                            sx={{
-                                color: "#1976d2",
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            -
-                        </Typography>
-                        <Typography variant="body1"
-                            sx={{
-                                color: "#1976d2",
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            <NumberFormat number={data.maxPrice} />₫
-                        </Typography>
-                    </Stack>
-
-
-                }
-                <Rating
-                    readOnly
-                    value={data.rating}
-                />
-
-            </CardContent>
-        </Card>
-
-    );
 }
 
 export default CustomCard;
->>>>>>> dev-khang
