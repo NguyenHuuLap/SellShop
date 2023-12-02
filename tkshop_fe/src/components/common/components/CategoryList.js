@@ -12,9 +12,6 @@ const CategoryList = () => {
     return (
         <>
             <Grid container spacing={2}>
-                <Grid item xs={6} md={3}>
-                    <CustomMegaMenu />
-                </Grid>
                 <Grid item xs={6} md={9}
                     sx={{
                         position: "relativve"

@@ -4,6 +4,7 @@ import { FavoriteBorder } from "@mui/icons-material";
 import { styled } from "@mui/system";
 import { Link } from 'react-router-dom';
 import NumberFormat from "../../../utils/NumberFormat";
+import axios from "axios";
 
 const TitleTypography = styled(Typography)({
     display: "-webkit-box",
@@ -21,7 +22,8 @@ const TitleTypography = styled(Typography)({
     }
 });
 
-const CustomCard = ({ data, sku }) => {
+const CustomCard = ({ data, variant }) => {
+
     return !data ? (<></>) : (
         <Card>
             <CardMedia
@@ -31,7 +33,7 @@ const CustomCard = ({ data, sku }) => {
                 sx={{ padding: 'auto', pt: 3, objectFit: "contain" }}
             />
             <CardContent sx={{ pb: 0, pt: 0.5 }}>
-                <Link to={`/product-detail/${data.slug ? data.slug : data._id}`+`${sku ? "/" + sku : "/" + data.variants[0].sku}`}>
+                <Link to={`/product-detail/${data.slug ? data.slug : data._id}`+`${variant ? "/" + variant.sku : "/" + data.variants[0].sku}`}>
                     <Box sx={{ overflow: "hidden" }} underline="none">
                         <TitleTypography variant="h6">
                             {data.name}
@@ -51,11 +53,11 @@ const CustomCard = ({ data, sku }) => {
                     }}
                 >
                     <Typography variant="body2" fontWeight={600}>
-                        {sku ? "Variant" : "Tất cả các dòng"}
+                        {variant ? variant.variantName : "Tất cả các dòng"}
                     </Typography>
                 </Paper>
 
-                {sku ?
+                {variant ?
                     <Stack mt={2} direction="row" spacing={1} sx={{ width: "100%" }} >
                         <Typography variant="body1"
                             sx={{
@@ -63,7 +65,7 @@ const CustomCard = ({ data, sku }) => {
                                 fontWeight: 'bold'
                             }}
                         >
-                            17.999.000₫
+                             <NumberFormat number={variant.price} />₫
                         </Typography>
                         <Typography variant="body2"
                             sx={{
@@ -72,7 +74,7 @@ const CustomCard = ({ data, sku }) => {
                                 fontWeight: 'bold'
                             }}
                         >
-                            22.100.000₫
+                            <NumberFormat number={variant.marketPrice} />₫
                         </Typography>
                     </Stack>
                     :

@@ -11,7 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useTheme } from "@mui/system";
 import CustomCard from "./CustomCard";
 
-const MainProduct = ({title, gridRows, data}) => {
+const MainProduct = ({ title, gridRows, data, displayVariant }) => {
     const swiperRef = useRef();
     const theme = useTheme();
     const media = useMediaQuery(theme.breakpoints.down('md'));
@@ -27,54 +27,12 @@ const MainProduct = ({title, gridRows, data}) => {
                 <Typography gutterBottom component="div" sx={{ fontSize: "23px", fontWeight: "bold" }}>
                     {title}
                 </Typography>
-                <Stack
-                    spacing={2} my={2}
-                    direction="row"
-                    sx={{
-                        position: 'absolute',
-                        top: 0,
-                        right: 20,
-                    }}>
-                    <Button
-                        variant="contained"
-                        sx={{
-                            backgroundColor: '#f1f1f1 !important',
-                            color: 'black',
-                            boxShadow: 0,
-                            border: '1px solid #e1e1e1',
-                            borderRadius: '15%'
-                        }}>
-                        Dell
-                    </Button>
-                    <Button
-                        variant="contained"
-                        sx={{
-                            backgroundColor: '#f1f1f1 !important',
-                            color: 'black',
-                            boxShadow: 0,
-                            border: '1px solid #e1e1e1',
-                            borderRadius: '15%'
-                        }}>
-                        Asus
-                    </Button>
-                    <Button
-                        variant="contained"
-                        sx={{
-                            backgroundColor: '#f1f1f1 !important',
-                            color: 'black',
-                            boxShadow: 0,
-                            border: '1px solid #e1e1e1',
-                            borderRadius: '15%'
-                        }}>
-                        Acer
-                    </Button>
-                </Stack>
                 <Swiper
                     spaceBetween={10}
                     onSwiper={(swiper) => {
                         swiperRef.current = swiper;
                     }}
-                    slidesPerView={media? 3 : 4}
+                    slidesPerView={media ? 3 : 4}
                     grid={{
                         rows: gridRows,
                         fill: 'row'
@@ -86,7 +44,13 @@ const MainProduct = ({title, gridRows, data}) => {
                     modules={[Navigation, Autoplay, Grid]}
                     className="main-product-swiper"
                 >
-                    {data.map(item => { return (<SwiperSlide><CustomCard data={item}/></SwiperSlide>);})}
+                    {!displayVariant ?
+                        ( data.map(item => { return (<SwiperSlide><CustomCard data={item} /></SwiperSlide>); }) )
+                        :
+                        ( data.map(item => item.variants.map(i => { return (<SwiperSlide key={i.sku}><CustomCard data={item} variant={i} /></SwiperSlide>); })))
+                    }
+
+            
                 </Swiper>
 
                 <IconButton

@@ -5,38 +5,51 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { NumericFormat } from 'react-number-format';
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import SelectBox from "./SelectBox";
+import { useDispatch, useSelector } from "react-redux";
+import { searchProducts, setMaxPrice, setMinPrice } from "../../../actions/SearchAction";
 
 const testList = [
     { checked: false, name: "Dell", key: "dell" },
     { checked: false, name: "ASUS", key: "asus" },
 ];
 
-const Filter = ({ setSearchUrl }) => {
-    const { categorySlug } = useParams();
+const Filter = () => {
+    const dispatch = useDispatch();
+    const brand = useSelector((state) => state.search.brand);
+    const minPrice = useSelector((state) => state.search.minPrice);
+    const maxPrice = useSelector((state) => state.search.maxPrice);
+    const category = useSelector((state) => state.search.category);
+    const keyword = useSelector((state) => state.search.keyword);
+    const [brandList, setBrandList] = React.useState();
     const location = useLocation();
     const [value, setValue] = React.useState(null);;
-    const [brandSearch, setBrandSearch] = React.useState("");
     const navigate = useNavigate();
 
     React.useEffect(() => {
-
         const initalPrice = () => {
             const searchParams = new URLSearchParams(location.search);
             const minPrice = searchParams.get("minPrice");
             const maxPrice = searchParams.get("maxPrice");
             setValue([minPrice, maxPrice]);
-            setSearchUrl(`http://localhost:3030/product/search?category=${categorySlug}&minPrice=${minPrice}&maxPrice=${maxPrice}&${brandSearch}`)
+            dispatch(setMinPrice(minPrice));
+            dispatch(setMaxPrice(maxPrice));
         }
-        initalPrice()
-    }, [categorySlug])
+        initalPrice();
+        dispatch(searchProducts(minPrice, maxPrice, category, brand, keyword));
+        
+    }, [category])
 
-    const handleChange = (event, newValue) => {
+    const handlePriceChange = (event, newValue) => {
         setValue(newValue);
     };
 
-    const searchWithFilter = () => {
-        setSearchUrl(`http://localhost:3030/product/search?category=${categorySlug}&minPrice=${value[0]}&maxPrice=${value[1]}&${brandSearch}`)
-        navigate(`/search/${categorySlug}?minPrice=${value[0]}&maxPrice=${value[1]}&${brandSearch}`)
+    const handlePriceChangeWhenMouseRelease = (event, newValue) => {
+        setValue(newValue);
+        dispatch(setMinPrice(newValue[0]));
+        dispatch(setMaxPrice(newValue[1]));
+        dispatch(searchProducts(newValue[0], newValue[1], category, brand, keyword));
+        navigate(`/search?category=${category}&minPrice=${newValue[0]}&maxPrice=${newValue[1]}&brand=${brand}&keyword=${encodeURIComponent(keyword)}&page=1`)
+
     };
 
     return !value ? (<>Loading</>) : (
@@ -49,11 +62,6 @@ const Filter = ({ setSearchUrl }) => {
 
                     }}
                 >
-                    <Grid item xs={12}>
-                        <Button onClick={searchWithFilter} variant="contained" sx={{ width: "100%" }}>
-                            Tìm kiếm
-                        </Button>
-                    </Grid>
 
 
                     <Grid item xs={12}>
@@ -82,14 +90,15 @@ const Filter = ({ setSearchUrl }) => {
                                 min={0}
                                 step={100000}
                                 value={value}
-                                onChange={handleChange} />
+                                onChangeCommitted={handlePriceChangeWhenMouseRelease}
+                                onChange={handlePriceChange} />
                         </Box>
                     </Grid>
                     <Grid item xs={12}>
                         <Divider />
                     </Grid>
                     <Grid item xs={12}>
-                        <SelectBox setParams={setBrandSearch} title="Thương hiệu" searchText="brand" data={testList} />
+                        <SelectBox title="Thương hiệu" searchText="brand" data={testList} />
                     </Grid>
                 </Grid >
             </CardContent>

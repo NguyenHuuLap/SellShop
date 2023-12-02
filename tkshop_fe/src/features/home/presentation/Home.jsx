@@ -4,9 +4,11 @@ import CategoryList from "../../../components/common/components/CategoryList.js"
 import AdsFullWidth from "../../../components/common/components/AdsFullWidth.js";
 import MainProduct from "../../../components/common/components/MainProduct.jsx";
 import axios from 'axios';
+import Carosel from "../../../components/common/components/CaroselTest.jsx";
 
 const Home = () => {
     const [productList, setProductList] = React.useState([])
+    const [mostViewProductList, setMostViewProductList] = React.useState([])
     const [isLoading, setIsLoading] = React.useState(true);
 
     const handleLoading = () => {
@@ -22,21 +24,29 @@ const Home = () => {
     React.useEffect(() => {
         const fetchData = async () => {
             try {
-                await axios.get('http://localhost:3030/product/')
+                await axios.get('http://localhost:3030/product/newest')
                     .then(value => {
                         value.data.forEach(item => {
                             setProductList(productList => [item, ...productList])
                         })
                     })
+                    await axios.get('http://localhost:3030/product/most-view')
+                    .then(value => {
+                        value.data.forEach(item => {
+                            setMostViewProductList(mostViewProductList => [item, ...mostViewProductList])
+                        })
+                    })
+                    
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
+     
         };
         fetchData();
     }, []);
 
 
-    return !productList ? (
+    return !mostViewProductList || !productList ? (
         <div>Loading</div>
     ) : (
         <Grid container spacing={3}
@@ -47,7 +57,7 @@ const Home = () => {
             }}
         >
             <Grid item xs={12}>
-                <CategoryList />
+                <Carosel />
             </Grid>
             <Grid item xs={12}>
                 <AdsFullWidth />
@@ -57,7 +67,11 @@ const Home = () => {
             </Grid>
 
             <Grid item xs={12}>
-                <MainProduct title="SẢN PHẨM MỚI NHẤT" gridRows={2} data={productList} />
+                <MainProduct title="SẢN PHẨM MỚI NHẤT" gridRows={2} data={productList} displayVariant={true}/>
+            </Grid>
+
+            <Grid item xs={12}>
+                <MainProduct title="SẢN PHẨM ĐƯỢC XEM NHIỀU NHẤT" gridRows={2} data={mostViewProductList} displayVariant={false}/>
             </Grid>
 
         </Grid>

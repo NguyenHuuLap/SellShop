@@ -2,26 +2,16 @@ import { Grid } from "@mui/material";
 import * as React from "react";
 import CustomCard from "../../../components/common/components/CustomCard";
 import axios from 'axios';
+import { useDispatch, useSelector } from "react-redux";
 
 const ProductGrid = ({ searchUrl }) => {
-    const [productList, setProductList] = React.useState(null);
+    const brand = useSelector((state) => state.search.brand);
+    const minPrice = useSelector((state) => state.search.minPrice);
+    const maxPrice = useSelector((state) => state.search.maxPrice);
+    const category = useSelector((state) => state.search.category);
+    const product = useSelector((state) => state.search.searchResults)
 
-    React.useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(searchUrl)
-                const data = response.data
-                setProductList(data);
-                console.log(data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-
-        };
-        fetchData()
-    }, [, searchUrl])
-
-    return !productList ? (<>Loading</>) : (
+    return !product ? (<>Loading</>) : (
         <Grid container spacing={1}
             sx={{
                 maxWidth: "1200px",
@@ -29,7 +19,7 @@ const ProductGrid = ({ searchUrl }) => {
                 margin: "auto",
             }}
         >
-            {productList.map((item, index) => {
+            {product.map((item, index) => {
                 return (
                     <Grid item xs={4} key={index}>
                         <CustomCard data={item}/>

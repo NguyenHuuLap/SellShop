@@ -48,8 +48,8 @@ function App() {
           <Header />
             <Routes>
               <Route path="/" name="Home" Component={Home} />
-              <Route path="/search" name="Search" element={<Search />} />
-              <Route path="/search/:categorySlug" name="Search" Component={Search} />
+              {/* <Route path="/search" name="Search" element={<Search />} /> */}
+              <Route path="/search" name="Search" Component={Search} />
               <Route path="/product-detail/:productSlug/:variantSku" name="Product Detail" Component={ProductDetail} />
               <Route path="/login" name='Login' Component={Login}/>
               <Route path="/profile" name='Profile' Component={Profile}/>

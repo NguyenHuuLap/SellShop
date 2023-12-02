@@ -13,17 +13,7 @@ import "swiper/css/thumbs";
 // import required modules
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import AdsCaroselIndicator from "./AdsCaroselIndicator";
-import { formGroupClasses } from "@mui/material";
-
-const styles = {
-    swiperSlideAuto: {
-        width: '100px',
-        height: '100px',
-        '&:hover': {
-
-        }
-    }
-}
+import { Card, CardMedia, formGroupClasses } from "@mui/material";
 
 
 export default function Carosel() {
@@ -34,36 +24,87 @@ export default function Carosel() {
             <Swiper
                 style={{
                     "--swiper-navigation-color": "#fff",
-                    "--swiper-pagination-color": "#fff",
-                    height: '330px'
+                    "--swiper-pagination-color": "#fff",                    
                 }}
                 spaceBetween={10}
                 navigation={true}
+                autoHeight={true}
                 thumbs={{ swiper: thumbsSwiper }}
                 modules={[FreeMode, Navigation, Thumbs]}
                 className="mySwiper2"
             >
                 <SwiperSlide>
-                    <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+                    <Card>
+                        <CardMedia
+                            component="img"
+                            image="https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:80/plain/https://dashboard.cellphones.com.vn/storage/sliding-dienthoai-xiaomi-13c.jpg"
+                            sx={{ maxHeight: "512px" , objectFit: "contain" }}
+                        />
+                    </Card>
                 </SwiperSlide>
+
                 <SwiperSlide>
-                    <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+                    <Card>
+                        <CardMedia
+                            component="img"
+                            image="https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:80/plain/https://dashboard.cellphones.com.vn/storage/sliding-dienthoai-xiaomi-13c.jpg"
+                            sx={{ maxHeight: "512px" , objectFit: "contain" }}
+                        />
+                    </Card>
                 </SwiperSlide>
+
                 <SwiperSlide>
-                    <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+                    <Card>
+                        <CardMedia
+                            component="img"
+                            image="https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:80/plain/https://dashboard.cellphones.com.vn/storage/sliding-dienthoai-xiaomi-13c.jpg"
+                            sx={{ maxHeight: "512px" , objectFit: "contain" }}
+                        />
+                    </Card>
                 </SwiperSlide>
+
                 <SwiperSlide>
-                    <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+                    <Card>
+                        <CardMedia
+                            component="img"
+                            image="https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:80/plain/https://dashboard.cellphones.com.vn/storage/sliding-dienthoai-xiaomi-13c.jpg"
+                            sx={{ maxHeight: "512px" , objectFit: "contain" }}
+                        />
+                    </Card>
                 </SwiperSlide>
+
                 <SwiperSlide>
-                    <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+                    <Card>
+                        <CardMedia
+                            component="img"
+                            image="https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:80/plain/https://dashboard.cellphones.com.vn/storage/sliding-dienthoai-xiaomi-13c.jpg"
+                            sx={{ maxHeight: "512px" , objectFit: "contain" }}
+                        />
+                    </Card>
                 </SwiperSlide>
+
                 <SwiperSlide>
-                    <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+                    <Card>
+                        <CardMedia
+                            component="img"
+                            image="https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:80/plain/https://dashboard.cellphones.com.vn/storage/sliding-dienthoai-xiaomi-13c.jpg"
+                            sx={{ maxHeight: "512px" , objectFit: "contain" }}
+                        />
+                    </Card>
                 </SwiperSlide>
+
                 <SwiperSlide>
-                    <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+                    <Card>
+                        <CardMedia
+                            component="img"
+                            image="https://cdn2.cellphones.com.vn/insecure/rs:fill:690:300/q:80/plain/https://dashboard.cellphones.com.vn/storage/sliding-dienthoai-xiaomi-13c.jpg"
+                            sx={{ maxHeight: "512px" , objectFit: "contain" }}
+                        />
+                    </Card>
                 </SwiperSlide>
+
+                
+    
             </Swiper>
             <Swiper
                 style={{
